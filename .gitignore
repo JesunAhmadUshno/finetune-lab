@@ -8,3 +8,6 @@ models/
 .env
 *.key
 secrets/
+
+level-2-build/adapter_checkpoint.npz
+level-2-build/adapter_checkpoint.npz.json
