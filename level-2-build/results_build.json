@@ -1,0 +1,462 @@
+{
+  "date": "2026-11-05",
+  "environment": "Muse VM, CPU, Python 3.12, NumPy 1.26.4",
+  "grpo_track": {
+    "after_training": {
+      "greedy_accuracy": 1.0,
+      "greedy_correct": 8,
+      "mean_reward": 0.9766,
+      "n_prompts": 8,
+      "samples_per_prompt": 32
+    },
+    "before_training": {
+      "greedy_accuracy": 0.125,
+      "greedy_correct": 1,
+      "mean_reward": 0.207,
+      "n_prompts": 8,
+      "samples_per_prompt": 32
+    },
+    "config": {
+      "beta_kl": 0.04,
+      "correct_actions": [
+        2,
+        0,
+        3,
+        1,
+        2,
+        3,
+        0,
+        1
+      ],
+      "eps_clip": 0.2,
+      "eval_seed": 41,
+      "group_size": 8,
+      "inner_epochs": 2,
+      "iterations": 60,
+      "learning_rate": 0.5,
+      "n_actions": 4,
+      "n_prompts": 8,
+      "policy_seed": 21,
+      "train_seed": 31
+    },
+    "final_loss": 0.0375,
+    "final_mean_kl_to_ref": 1.1795,
+    "final_mean_surrogate": 0.0095,
+    "history": [
+      {
+        "eval_greedy_accuracy": 0.5,
+        "eval_mean_reward": 0.2734,
+        "iteration": 1,
+        "loss": -0.0418,
+        "mean_kl_to_ref": 0.0039,
+        "train_group_reward": 0.2656
+      },
+      {
+        "eval_greedy_accuracy": 1.0,
+        "eval_mean_reward": 0.5508,
+        "iteration": 10,
+        "loss": -0.0247,
+        "mean_kl_to_ref": 0.3529,
+        "train_group_reward": 0.5
+      },
+      {
+        "eval_greedy_accuracy": 1.0,
+        "eval_mean_reward": 0.6875,
+        "iteration": 20,
+        "loss": 0.0185,
+        "mean_kl_to_ref": 0.6698,
+        "train_group_reward": 0.8438
+      },
+      {
+        "eval_greedy_accuracy": 1.0,
+        "eval_mean_reward": 0.8555,
+        "iteration": 30,
+        "loss": 0.0197,
+        "mean_kl_to_ref": 0.8661,
+        "train_group_reward": 0.8438
+      },
+      {
+        "eval_greedy_accuracy": 1.0,
+        "eval_mean_reward": 0.8672,
+        "iteration": 40,
+        "loss": 0.0276,
+        "mean_kl_to_ref": 1.0327,
+        "train_group_reward": 0.8906
+      },
+      {
+        "eval_greedy_accuracy": 1.0,
+        "eval_mean_reward": 0.9375,
+        "iteration": 50,
+        "loss": 0.0262,
+        "mean_kl_to_ref": 1.1215,
+        "train_group_reward": 0.8906
+      },
+      {
+        "eval_greedy_accuracy": 1.0,
+        "eval_mean_reward": 0.9297,
+        "iteration": 60,
+        "loss": 0.0375,
+        "mean_kl_to_ref": 1.1795,
+        "train_group_reward": 0.9219
+      }
+    ],
+    "train_group_reward_first_iteration": 0.2656,
+    "train_group_reward_last_iteration": 0.9219
+  },
+  "level": "2-build",
+  "note": "Synthetic tasks and NumPy teaching models only. SFT track is a LoRA pipeline on synthetic vectors. GRPO track is a tabular toy policy on a synthetic checker task. No real LLM, no real text data, no GPU run.",
+  "project": "P10 finetune-lab",
+  "sft_pipeline": {
+    "after_training": {
+      "test": {
+        "accuracy": 0.9141,
+        "confusion": [
+          [
+            26,
+            2,
+            1,
+            1
+          ],
+          [
+            0,
+            31,
+            0,
+            4
+          ],
+          [
+            0,
+            1,
+            9,
+            0
+          ],
+          [
+            2,
+            0,
+            0,
+            51
+          ]
+        ],
+        "correct": 117,
+        "loss": 0.2032,
+        "n": 128,
+        "per_class_accuracy": [
+          0.8667,
+          0.8857,
+          0.9,
+          0.9623
+        ]
+      },
+      "train": {
+        "accuracy": 0.9453,
+        "confusion": [
+          [
+            131,
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            115,
+            2,
+            3
+          ],
+          [
+            6,
+            8,
+            64,
+            1
+          ],
+          [
+            0,
+            3,
+            1,
+            174
+          ]
+        ],
+        "correct": 484,
+        "loss": 0.1752,
+        "n": 512,
+        "per_class_accuracy": [
+          0.9776,
+          0.9504,
+          0.8101,
+          0.9775
+        ]
+      },
+      "val": {
+        "accuracy": 0.9141,
+        "confusion": [
+          [
+            32,
+            1,
+            0,
+            1
+          ],
+          [
+            2,
+            25,
+            0,
+            1
+          ],
+          [
+            3,
+            2,
+            11,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            49
+          ]
+        ],
+        "correct": 117,
+        "loss": 0.2502,
+        "n": 128,
+        "per_class_accuracy": [
+          0.9412,
+          0.8929,
+          0.6875,
+          0.98
+        ]
+      }
+    },
+    "before_training": {
+      "test": {
+        "accuracy": 0.6797,
+        "confusion": [
+          [
+            24,
+            3,
+            2,
+            1
+          ],
+          [
+            1,
+            33,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            10,
+            0
+          ],
+          [
+            12,
+            15,
+            6,
+            20
+          ]
+        ],
+        "correct": 87,
+        "loss": 1.0007,
+        "n": 128,
+        "per_class_accuracy": [
+          0.8,
+          0.9429,
+          1.0,
+          0.3774
+        ]
+      },
+      "train": {
+        "accuracy": 0.6094,
+        "confusion": [
+          [
+            94,
+            15,
+            9,
+            16
+          ],
+          [
+            3,
+            101,
+            7,
+            10
+          ],
+          [
+            0,
+            7,
+            62,
+            10
+          ],
+          [
+            43,
+            54,
+            26,
+            55
+          ]
+        ],
+        "correct": 312,
+        "loss": 1.0472,
+        "n": 512,
+        "per_class_accuracy": [
+          0.7015,
+          0.8347,
+          0.7848,
+          0.309
+        ]
+      },
+      "val": {
+        "accuracy": 0.5469,
+        "confusion": [
+          [
+            21,
+            3,
+            1,
+            9
+          ],
+          [
+            2,
+            20,
+            3,
+            3
+          ],
+          [
+            0,
+            1,
+            12,
+            3
+          ],
+          [
+            9,
+            11,
+            13,
+            17
+          ]
+        ],
+        "correct": 70,
+        "loss": 1.0707,
+        "n": 128,
+        "per_class_accuracy": [
+          0.6176,
+          0.7143,
+          0.75,
+          0.34
+        ]
+      }
+    },
+    "checkpoint": {
+      "round_trip_matches_after": true,
+      "round_trip_test_accuracy": 0.9141,
+      "round_trip_test_loss": 0.2032,
+      "sidecar": {
+        "a_hash": "355ae8ca6ee42844990c0be1267da27247d923601e327d17d8187ba2990eff16",
+        "alpha": 4.0,
+        "b_hash": "9349623cee35943afe51182b0c9aa612a2f487e93a4d258885661b374659e692",
+        "base_weights_hash": "499ca232a8cf659dd944b63092140faa04c90932bf2dd5c7316c817448152e9e",
+        "format": "finetune-lab-adapter-v1",
+        "in_dim": 16,
+        "num_classes": 4,
+        "rank": 2,
+        "scaling": 2.0,
+        "trainable_parameters": 40
+      }
+    },
+    "config": {
+      "alpha": 4.0,
+      "base_weights_hash_after": "499ca232a8cf659dd944b63092140faa04c90932bf2dd5c7316c817448152e9e",
+      "base_weights_hash_before": "499ca232a8cf659dd944b63092140faa04c90932bf2dd5c7316c817448152e9e",
+      "base_weights_unchanged": true,
+      "batch_size": 64,
+      "epochs": 60,
+      "full_finetune_parameters": 64,
+      "learning_rate": 0.5,
+      "rank": 2,
+      "scaling": 2.0,
+      "trainable_parameters": 40
+    },
+    "data_card": {
+      "in_dim": 16,
+      "num_classes": 4,
+      "seeds": {
+        "adapter": 5,
+        "base": 3,
+        "data": 7,
+        "shuffle": 11,
+        "target": 9
+      },
+      "test": {
+        "class_counts": [
+          30,
+          35,
+          10,
+          53
+        ],
+        "n": 128
+      },
+      "train": {
+        "class_counts": [
+          134,
+          121,
+          79,
+          178
+        ],
+        "n": 512
+      },
+      "val": {
+        "class_counts": [
+          34,
+          28,
+          16,
+          50
+        ],
+        "n": 128
+      }
+    },
+    "history": [
+      {
+        "epoch": 1,
+        "train_accuracy": 0.6211,
+        "train_loss": 0.9834,
+        "val_accuracy": 0.5703,
+        "val_loss": 1.0186
+      },
+      {
+        "epoch": 10,
+        "train_accuracy": 0.9629,
+        "train_loss": 0.19,
+        "val_accuracy": 0.9375,
+        "val_loss": 0.2452
+      },
+      {
+        "epoch": 20,
+        "train_accuracy": 0.9297,
+        "train_loss": 0.1926,
+        "val_accuracy": 0.9062,
+        "val_loss": 0.2753
+      },
+      {
+        "epoch": 30,
+        "train_accuracy": 0.9473,
+        "train_loss": 0.1775,
+        "val_accuracy": 0.8906,
+        "val_loss": 0.2455
+      },
+      {
+        "epoch": 40,
+        "train_accuracy": 0.9355,
+        "train_loss": 0.1841,
+        "val_accuracy": 0.9141,
+        "val_loss": 0.2671
+      },
+      {
+        "epoch": 50,
+        "train_accuracy": 0.9453,
+        "train_loss": 0.1742,
+        "val_accuracy": 0.8906,
+        "val_loss": 0.2619
+      },
+      {
+        "epoch": 60,
+        "train_accuracy": 0.9453,
+        "train_loss": 0.1752,
+        "val_accuracy": 0.9141,
+        "val_loss": 0.2502
+      }
+    ]
+  }
+}
