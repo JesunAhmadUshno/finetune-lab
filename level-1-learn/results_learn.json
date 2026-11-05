@@ -1,0 +1,118 @@
+{
+  "date": "2026-11-05",
+  "environment": "Muse VM, CPU, Python 3.12, NumPy 1.26.4",
+  "grpo_examples": {
+    "prompt_a_binary": {
+      "advantages": [
+        0.5,
+        -0.5,
+        0.5,
+        -0.5
+      ],
+      "advantages_normalized": [
+        1.0,
+        -1.0,
+        1.0,
+        -1.0
+      ],
+      "baseline_mean": 0.5,
+      "group_size": 4,
+      "rewards": [
+        1.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      "std_population": 0.5
+    },
+    "prompt_b_graded": {
+      "advantages": [
+        1.0,
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "advantages_normalized": [
+        1.4142,
+        0.0,
+        -1.4142,
+        0.0
+      ],
+      "baseline_mean": 1.0,
+      "group_size": 4,
+      "rewards": [
+        2.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "std_population": 0.7071
+    },
+    "prompt_c_all_equal": {
+      "advantages": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "advantages_normalized": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "baseline_mean": 1.0,
+      "group_size": 4,
+      "rewards": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "std_population": 0.0
+    }
+  },
+  "level": "1-learn",
+  "lora": {
+    "after_training": {
+      "test_accuracy": 0.9219,
+      "test_correct": 118,
+      "test_loss": 0.2534,
+      "train_accuracy": 0.9473,
+      "train_loss": 0.169
+    },
+    "before_training": {
+      "test_accuracy": 0.5469,
+      "test_correct": 70,
+      "test_loss": 1.0707,
+      "train_accuracy": 0.6094,
+      "train_loss": 1.0472
+    },
+    "lora": {
+      "alpha": 4.0,
+      "base_weights_hash_after_training": "499ca232a8cf659dd944b63092140faa04c90932bf2dd5c7316c817448152e9e",
+      "base_weights_hash_before_training": "499ca232a8cf659dd944b63092140faa04c90932bf2dd5c7316c817448152e9e",
+      "base_weights_unchanged": true,
+      "epochs": 200,
+      "full_finetune_parameters": 64,
+      "learning_rate": 0.5,
+      "rank": 2,
+      "scaling": 2.0,
+      "trainable_fraction_of_full": 0.625,
+      "trainable_parameters": 40
+    },
+    "task": {
+      "adapter_seed": 5,
+      "base_seed": 3,
+      "data_seed": 7,
+      "in_dim": 16,
+      "label_rule": "argmax of x @ W_target, W_target = W0 + scaling * (A_true @ B_true)",
+      "n_test": 128,
+      "n_train": 512,
+      "num_classes": 4,
+      "target_seed": 9
+    }
+  },
+  "note": "Synthetic task and NumPy teaching model only. No real LLM, no GPU run, no SFT or RL policy run at this level.",
+  "project": "P10 finetune-lab"
+}
