@@ -1,0 +1,230 @@
+{
+  "date": "2026-11-05",
+  "deep": {
+    "config": {
+      "beta": 0.1,
+      "eval_seed": 41,
+      "held_out_pairs": 16,
+      "learning_rate": 0.5,
+      "optimizer": "full-batch gradient descent",
+      "pair_rule": "chosen is the checker-correct action; train rejected is correct plus 1 modulo 4; held-out rejected are correct plus 2 and plus 3 modulo 4",
+      "policy": "tabular softmax, 8 prompts, 4 actions, Build init_policy, policy seed 21",
+      "reference_policy": "frozen copy of the initial policy",
+      "steps": 300,
+      "train_pairs": 8
+    },
+    "dpo": {
+      "held_out_pairs_after": {
+        "mean_margin": 0.8297,
+        "n_pairs": 16,
+        "preference_accuracy": 1.0,
+        "preference_correct": 16
+      },
+      "held_out_pairs_before": {
+        "mean_margin": -0.0654,
+        "n_pairs": 16,
+        "preference_accuracy": 0.4375,
+        "preference_correct": 7
+      },
+      "history": [
+        {
+          "held_out_mean_margin": -0.0654,
+          "loss": 0.6931,
+          "step": 0,
+          "train_mean_margin": -0.1123
+        },
+        {
+          "held_out_mean_margin": 0.0897,
+          "loss": 0.6778,
+          "step": 50,
+          "train_mean_margin": 0.1978
+        },
+        {
+          "held_out_mean_margin": 0.2423,
+          "loss": 0.6628,
+          "step": 100,
+          "train_mean_margin": 0.5031
+        },
+        {
+          "held_out_mean_margin": 0.3926,
+          "loss": 0.6484,
+          "step": 150,
+          "train_mean_margin": 0.8037
+        },
+        {
+          "held_out_mean_margin": 0.5406,
+          "loss": 0.6344,
+          "step": 200,
+          "train_mean_margin": 1.0996
+        },
+        {
+          "held_out_mean_margin": 0.6863,
+          "loss": 0.6208,
+          "step": 250,
+          "train_mean_margin": 1.391
+        },
+        {
+          "held_out_mean_margin": 0.8269,
+          "loss": 0.6079,
+          "step": 299,
+          "train_mean_margin": 1.6722
+        }
+      ],
+      "loss_after": 0.6076,
+      "loss_before": 0.6931,
+      "task_after": {
+        "greedy_accuracy": 1.0,
+        "greedy_correct": 8,
+        "mean_reward": 0.543,
+        "n_prompts": 8,
+        "samples_per_prompt": 32
+      },
+      "task_before": {
+        "greedy_accuracy": 0.125,
+        "greedy_correct": 1,
+        "mean_reward": 0.207,
+        "n_prompts": 8,
+        "samples_per_prompt": 32
+      },
+      "train_pairs_after": {
+        "mean_margin": 1.6779,
+        "n_pairs": 8,
+        "preference_accuracy": 1.0,
+        "preference_correct": 8
+      },
+      "train_pairs_before": {
+        "mean_margin": -0.1123,
+        "n_pairs": 8,
+        "preference_accuracy": 0.25,
+        "preference_correct": 2
+      }
+    },
+    "forgetting_checks": {
+      "after": {
+        "greedy_accuracy": 1.0,
+        "greedy_correct": 8,
+        "mean_reward": 0.543,
+        "n_prompts": 8,
+        "samples_per_prompt": 32
+      },
+      "before": {
+        "greedy_accuracy": 0.125,
+        "greedy_correct": 1,
+        "mean_reward": 0.207,
+        "n_prompts": 8,
+        "samples_per_prompt": 32
+      },
+      "change": {
+        "greedy_accuracy": 0.875,
+        "greedy_correct": 7,
+        "mean_reward": 0.336
+      },
+      "mean_kl_after_to_before": 0.1833,
+      "task": "Build GRPO checker task, 8 prompts, Build evaluate_policy, eval seed 41, 32 samples per prompt",
+      "untouched_action_order_kept": 8,
+      "untouched_action_order_prompts": 8,
+      "untouched_action_order_retention": 1.0
+    },
+    "qlora_memory_study": {
+      "assumptions": {
+        "adapted_matrices": "query and value projections",
+        "bytes_4bit": 0.5,
+        "bytes_fp16": 2,
+        "excluded": "optimizer state, gradients, activations, fp32 master copies, quantization scales and zero points",
+        "matrices_per_layer": 2,
+        "rank": 16
+      },
+      "method": "accounting from parameter counts and bytes per parameter, not measured GPU memory",
+      "rows": [
+        {
+          "adapter_fraction_of_full": 0.0047,
+          "full_finetune_bytes": 250000000,
+          "hidden": 768,
+          "layers": 12,
+          "lora_adapter_bytes": 1179648,
+          "lora_parameters": 589824,
+          "lora_total_bytes": 251179648,
+          "name": "small-125M",
+          "parameters": 125000000,
+          "qlora_base_4bit_bytes": 62500000,
+          "qlora_total_bytes": 63679648,
+          "qlora_total_fraction_of_full": 0.2547,
+          "rank": 16
+        },
+        {
+          "adapter_fraction_of_full": 0.0031,
+          "full_finetune_bytes": 2000000000,
+          "hidden": 2048,
+          "layers": 24,
+          "lora_adapter_bytes": 6291456,
+          "lora_parameters": 3145728,
+          "lora_total_bytes": 2006291456,
+          "name": "medium-1B",
+          "parameters": 1000000000,
+          "qlora_base_4bit_bytes": 500000000,
+          "qlora_total_bytes": 506291456,
+          "qlora_total_fraction_of_full": 0.2531,
+          "rank": 16
+        },
+        {
+          "adapter_fraction_of_full": 0.0012,
+          "full_finetune_bytes": 14000000000,
+          "hidden": 4096,
+          "layers": 32,
+          "lora_adapter_bytes": 16777216,
+          "lora_parameters": 8388608,
+          "lora_total_bytes": 14016777216,
+          "name": "large-7B",
+          "parameters": 7000000000,
+          "qlora_base_4bit_bytes": 3500000000,
+          "qlora_total_bytes": 3516777216,
+          "qlora_total_fraction_of_full": 0.2512,
+          "rank": 16
+        },
+        {
+          "adapter_fraction_of_full": 0.001,
+          "full_finetune_bytes": 26000000000,
+          "hidden": 5120,
+          "layers": 40,
+          "lora_adapter_bytes": 26214400,
+          "lora_parameters": 13107200,
+          "lora_total_bytes": 26026214400,
+          "name": "xl-13B",
+          "parameters": 13000000000,
+          "qlora_base_4bit_bytes": 6500000000,
+          "qlora_total_bytes": 6526214400,
+          "qlora_total_fraction_of_full": 0.251,
+          "rank": 16
+        }
+      ]
+    },
+    "reward_hacking_probe": {
+      "constant_policy_probe": {
+        "description": "all mass on action 0 for every prompt",
+        "greedy_accuracy": 0.25,
+        "held_out_preference_accuracy": 0.25,
+        "mean_reward": 0.25,
+        "train_preference_accuracy": 0.25
+      },
+      "rejected_only_suppression_probe": {
+        "description": "pre-DPO logits with 5.0 subtracted from only the train rejected action per prompt, chosen action never raised",
+        "greedy_accuracy": 0.25,
+        "held_out_preference_accuracy": 0.4375,
+        "mean_reward": 0.3477,
+        "train_preference_accuracy": 1.0
+      },
+      "trained_policy_check": {
+        "description": "flag if held-out preference accuracy is more than 0.2 below train, or greedy task accuracy falls below the pre-DPO value",
+        "greedy_accuracy": 1.0,
+        "greedy_accuracy_before": 0.125,
+        "hacking_or_overfit_flagged": false,
+        "held_out_preference_accuracy": 1.0,
+        "train_preference_accuracy": 1.0
+      }
+    }
+  },
+  "environment": "Muse VM, CPU, Python 3.12, NumPy 1.26.4",
+  "level": "3-deep",
+  "note": "Synthetic NumPy teaching policy only. DPO on a tabular toy policy with synthetic preferences. QLoRA study is accounting from parameter counts, not measured GPU memory. No real LLM, no real text data, no GPU run.",
+  "project": "P10 finetune-lab"
+}
