@@ -13,6 +13,7 @@ Project: P10. Fleet node: BlackBox (GPU). Wave: Wave 5.
 2. Read DOSSIER.md for the past, present, and future of this problem (v1).
 3. Read NOVELTY.md for the proposed novelty (DRAFT, pending the Jev claim_check gate).
 4. Start at level-1-learn/README.md, then level-2-build, then level-3-deep.
+5. Read rigor/README.md for the multi-seed intervals, baselines, sweeps and ablations, and docs/research-review.md for the research grade and open gaps.
 
 ## Level map
 
@@ -35,6 +36,15 @@ Project: P10. Fleet node: BlackBox (GPU). Wave: Wave 5.
 | Deep: DPO held-out preference margin and accuracy, same pairs, after 300 full-batch steps (beta 0.1) | 0.8297, accuracy 1.0000 (16 of 16) |
 | Deep: forgetting check, greedy checker accuracy on the Build GRPO task, before and after DPO | 0.125 (1 of 8) before, 1.0000 (8 of 8) after, change +0.875 |
 | Deep: QLoRA accounting, large-7B stated size, 4-bit base plus rank 16 adapter against fp16 full weights | 3,516,777,216 bytes against 14,000,000,000 bytes (fraction 0.2512, accounting, not measured GPU memory) |
+
+| Rigor: SFT LoRA rank 2 held-out test accuracy, 10 seeds, final epoch | mean 0.9039, std 0.0486, bootstrap 95% CI 0.8742 to 0.9305 (seed 0 is the recorded 0.9141) |
+| Rigor: SFT full fine-tune of all 64 weights, same 10 seeds | mean 0.9391, CI 0.9219 to 0.9555 (beats the 40-parameter rank 2 adapter on this toy) |
+| Rigor: SFT best-validation epoch (early stopping), rank 2, 10 seeds | mean test accuracy 0.9219, CI 0.8969 to 0.9414 |
+| Rigor: GRPO fresh-sample mean reward after 60 iterations, 10 seeds | mean 0.9465, std 0.0215, CI 0.9340 to 0.9590 (the recorded 0.9766 is the best seed) |
+| Rigor: DPO held-out preference margin, 10 seeds | mean 0.8832, std 0.0395, CI 0.8603 to 0.9065 |
+| Rigor: misaligned DPO, chosen action contradicts the checker on 4 of 8 prompts, 10 seeds | greedy accuracy 0.5000 after (0.0000 on the misaligned prompts, 1.0000 on the rest) |
+
+Rigor rows come from rigor/results_rigor.json (python3 rigor/run_rigor.py); the KL beta sweep, GRPO ablations and the 36-setting DPO sweep are in rigor/README.md.
 
 Note on slices: the Build validation slice is the slice Learn used as its test set, and the Build test slice is fresh held-out data. Build and Learn test numbers are not the same set; see level-2-build/README.md.
 
