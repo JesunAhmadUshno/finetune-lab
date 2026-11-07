@@ -11,3 +11,7 @@ secrets/
 
 level-2-build/adapter_checkpoint.npz
 level-2-build/adapter_checkpoint.npz.json
+
+site/node_modules/
+site/dist/
+site/.rubric/
