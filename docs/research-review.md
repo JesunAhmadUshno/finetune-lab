@@ -19,7 +19,7 @@ no real language model is ever trained, so no claim transfers to
 LLM fine-tuning. Within the toy scope, this change closes most of
 the statistical and baseline gaps: every headline number now has a
 10-seed interval, full fine-tuning and rank baselines exist, the KL
-beta and DPO hyperparameters are swept, forgetting is tested with
+beta and DPO hyperparameters are swept, task retention is tested with
 misaligned preferences and with shared weights, and a defect in the
 Build GRPO gradient was found and documented.
 
@@ -72,7 +72,7 @@ scored against the files:
   Supported: tabular greedy accuracy 0.0000 on misaligned prompts;
   shared-weight unseen-prompt greedy accuracy falls from 0.5375
   (aligned) to 0.2500 with 4 of 8 train prompts misaligned
-  (misaligned_forgetting, shared_weight_dpo).
+  (misaligned_retention, shared_weight_dpo).
 
 Because these are post hoc, they are descriptive. A preregistered
 hypothesis set belongs with the real-model run in section 1.
@@ -163,11 +163,18 @@ identical" claim holds per platform, not across platforms. The
 rigor file records its own environment (Python 3.12.3, NumPy 2.4.5)
 and its tests compare rounded metrics, not hashes.
 
+Dependency audit: npm audit --omit=dev in site/ finds 0
+vulnerabilities. The full audit lists advisories in vite 5.4.11 and
+its esbuild, all affecting the local dev server only (vite dev). The
+deployed dashboard is the static site/dist folder, which runs neither.
+vite stays at 5.4.11 to match the pinned toolchain the other portfolio
+sites use; moving to a patched vite is a one-line pin change.
+
 ## 7. Threats to validity
 
 - Construct: actions stand in for responses and a 16 x 4 linear map
   stands in for a model. The constructs "fine-tuning", "preference"
-  and "forgetting" are analogies at this scale.
+  and "retention" are analogies at this scale.
 - Internal: the label rule builds a rank-2 change from the base, so
   a rank-2 adapter is favoured by construction (stated in
   lora_learn.py). The DPO preferences are generated from the same
@@ -230,6 +237,6 @@ calculator.
 | Safetensors checkpoints (ROADMAP 8, second half) | The safetensors package; a format change with no research effect, left for the real-model run |
 
 Everything on the CPU side that the rubric asks for (seed variance,
-baselines, ablations, sweeps, a stronger forgetting test, early
+baselines, ablations, sweeps, a stronger retention test, early
 stopping, CI on the full suite, pinned dependencies) is done in this
 change.
