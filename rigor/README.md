@@ -86,6 +86,7 @@ which this toy cannot show.
 | GRPO without clipping | 0.9469 (0.9344 to 0.9598) | 1.1264 |
 | GRPO without KL term | 0.9637 (0.9543 to 0.9735) | 1.1980 |
 | REINFORCE with group baseline (1 epoch, no clip, no KL) | 0.8922 (0.8746 to 0.9098) | 0.9546 |
+| GRPO with corrected gradient normalization | 0.9180 (0.9027 to 0.9332) | 1.0047 |
 
 Reading: removing clipping changes almost nothing at this
 learning rate and 2 inner epochs, and removing the KL term raises
@@ -94,6 +95,21 @@ single-pass REINFORCE update comes from GRPO's second inner epoch
 on each sampled batch. This is a tabular stand-in for the
 GRPO against PPO question; no critic is trained, so it is not a
 PPO comparison.
+
+### Gradient normalization defect found in grpo_build.py
+
+grpo_build.grpo_loss_and_grad reports the loss -mean(surrogate) +
+beta * mean KL, but its gradient divides prompt p's surrogate term
+by the running sample count (p + 1) x 8 instead of the total 64,
+and adds the KL gradient without averaging over the 8 prompts. So
+prompt 0 steps 8 times harder than prompt 7, and the KL pull is 8
+times what the stated loss implies. tests/test_rigor.py shows the
+Build gradient does not match finite differences of its own loss
+and the corrected gradient (rigor_study.grpo_grad_corrected) does.
+The recorded Build and Deep results are left as they were run;
+the corrected row above is the same experiment with the stated
+loss, and reaches a lower mean reward at 60 iterations (0.9180
+against 0.9465) because its steps are smaller.
 
 ## DPO sweep (recorded seed, 36 settings)
 

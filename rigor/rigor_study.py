@@ -153,9 +153,35 @@ def _init_policy(seed):
         (grpo_build.N_PROMPTS, grpo_build.N_ACTIONS)) * 0.1
 
 
+def grpo_grad_corrected(logits, ref_probs, samples, beta=grpo_build.BETA_KL,
+                        eps=grpo_build.EPS_CLIP):
+    """Gradient of the stated GRPO loss, -mean(surrogate) + beta * mean KL.
+
+    grpo_build.grpo_loss_and_grad divides prompt p's surrogate gradient
+    by the running sample count (p + 1) * G instead of the total 8 * G,
+    so earlier prompts take larger steps than the stated loss implies.
+    This version divides by the total, so it matches finite differences
+    of the stated loss (tests/test_rigor.py checks both facts).
+    """
+    probs = grpo_build.softmax_rows(logits)
+    total = sum(len(s[0]) for s in samples)
+    grad = np.zeros_like(logits)
+    for p, (actions, adv, old) in enumerate(samples):
+        ratio = probs[p][actions] / (old[actions] + 1e-12)
+        clip_r = grpo_build.clipped_ratio(ratio, eps)
+        frozen = ((ratio * adv) >= (clip_r * adv)) & ((ratio < 1 - eps) | (ratio > 1 + eps))
+        for i, act in enumerate(actions):
+            if not frozen[i]:
+                grad[p] += (-adv[i] * ratio[i] / total) * (np.eye(grpo_build.N_ACTIONS)[act] - probs[p])
+    kls = grpo_build.kl_divergence(probs, ref_probs)
+    log_ratio = np.log(probs + 1e-12) - np.log(ref_probs + 1e-12)
+    return grad + beta * probs * (log_ratio - kls[:, None]) / len(samples)
+
+
 def run_grpo_cfg(seed_offset=0, beta=grpo_build.BETA_KL, eps=grpo_build.EPS_CLIP,
                  group_size=grpo_build.GROUP_SIZE, iterations=grpo_build.ITERATIONS,
-                 inner_epochs=2, lr=grpo_build.LEARNING_RATE, checkpoints=()):
+                 inner_epochs=2, lr=grpo_build.LEARNING_RATE, checkpoints=(),
+                 corrected=False):
     """grpo_build.run_grpo with seeds and knobs as parameters.
 
     Checkpoint evaluations use the run's fixed eval seed so every
@@ -176,7 +202,10 @@ def run_grpo_cfg(seed_offset=0, beta=grpo_build.BETA_KL, eps=grpo_build.EPS_CLIP
             adv, _, _ = grpo_build.group_advantages(rewards)
             samples.append((actions, adv, probs[p].copy()))
         for _ in range(inner_epochs):
-            _, grad = grpo_build.grpo_loss_and_grad(logits, ref, samples, beta=beta, eps=eps)
+            if corrected:
+                grad = grpo_grad_corrected(logits, ref, samples, beta=beta, eps=eps)
+            else:
+                _, grad = grpo_build.grpo_loss_and_grad(logits, ref, samples, beta=beta, eps=eps)
             logits = logits - lr * grad
         if it + 1 in checkpoints:
             ev = grpo_build.evaluate_policy(logits, seed=eval_seed)
@@ -276,7 +305,8 @@ def run_all():
                 ("GRPO without clipping", {"eps": 1e9}),
                 ("GRPO without KL term", {"beta": 0.0}),
                 ("REINFORCE with group baseline (1 epoch, no clip, no KL)",
-                 {"eps": 1e9, "beta": 0.0, "inner_epochs": 1})]
+                 {"eps": 1e9, "beta": 0.0, "inner_epochs": 1}),
+                ("GRPO with corrected gradient normalization", {"corrected": True})]
     ablations = {"note": "tabular stand-in for the GRPO against PPO comparison; no critic is trained", "rows": []}
     for name, kw in variants:
         t = _seed_track(run_grpo_cfg, grpo_keys, **kw)

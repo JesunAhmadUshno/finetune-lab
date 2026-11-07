@@ -75,6 +75,40 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(pairs[2][1], int(correct[2]))
 
 
+class TestGRPOGradientNormalization(unittest.TestCase):
+    """The stated loss is -mean(surrogate) + beta * mean KL over prompts."""
+
+    def setUp(self):
+        gb = rigor_study.grpo_build
+        rng = np.random.default_rng(5)
+        self.logits = gb.init_policy() + rng.standard_normal((8, 4)) * 0.3
+        self.ref = gb.softmax_rows(gb.init_policy())
+        probs = gb.softmax_rows(self.logits)
+        self.samples = []
+        for p in range(8):
+            acts = rng.choice(4, size=8, p=probs[p])
+            adv, _, _ = gb.group_advantages(np.array([gb.checker(p, a) for a in acts]))
+            self.samples.append((acts, adv, probs[p].copy()))
+        num = np.zeros_like(self.logits)
+        for i in range(8):
+            for j in range(4):
+                plus, minus = self.logits.copy(), self.logits.copy()
+                plus[i, j] += 1e-6
+                minus[i, j] -= 1e-6
+                lp = gb.grpo_loss_and_grad(plus, self.ref, self.samples)[0]["loss"]
+                lm = gb.grpo_loss_and_grad(minus, self.ref, self.samples)[0]["loss"]
+                num[i, j] = (lp - lm) / 2e-6
+        self.numeric = num
+
+    def test_corrected_gradient_matches_finite_differences(self):
+        grad = rigor_study.grpo_grad_corrected(self.logits, self.ref, self.samples)
+        np.testing.assert_allclose(grad, self.numeric, atol=1e-6)
+
+    def test_build_gradient_is_not_the_stated_loss_gradient(self):
+        _, grad = rigor_study.grpo_build.grpo_loss_and_grad(self.logits, self.ref, self.samples)
+        self.assertGreater(float(np.abs(grad - self.numeric).max()), 1e-3)
+
+
 class TestResultsFile(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

@@ -565,6 +565,42 @@
           "std": 0.0304
         },
         "variant": "REINFORCE with group baseline (1 epoch, no clip, no KL)"
+      },
+      {
+        "final_greedy_accuracy": {
+          "ci95": [
+            1.0,
+            1.0
+          ],
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "n": 10,
+          "std": 0.0
+        },
+        "final_kl_to_ref": {
+          "ci95": [
+            0.9891,
+            1.022
+          ],
+          "max": 1.0638,
+          "mean": 1.0047,
+          "min": 0.9676,
+          "n": 10,
+          "std": 0.0284
+        },
+        "final_mean_reward": {
+          "ci95": [
+            0.9027,
+            0.9332
+          ],
+          "max": 0.9531,
+          "mean": 0.918,
+          "min": 0.8828,
+          "n": 10,
+          "std": 0.0264
+        },
+        "variant": "GRPO with corrected gradient normalization"
       }
     ]
   },
