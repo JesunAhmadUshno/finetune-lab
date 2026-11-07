@@ -126,7 +126,7 @@ sampled reward 0.9961 and KL 1.3915. The recorded setting (beta
 0.1, lr 0.5, 300 steps) is a light-touch point on that curve,
 which is why its sampled reward (0.5430) is far below GRPO's.
 
-## Misaligned forgetting check (10 seeds)
+## Misaligned retention check (10 seeds)
 
 On the first k prompts the chosen action is correct plus 1 and
 the rejected action is the checker-correct one, so DPO pulls
@@ -149,7 +149,7 @@ over the task, not how far damage spreads in a shared-weight model.
 
 The tabular policy cannot generalise to a new prompt and cannot
 spread damage between prompts, so two Deep deductions (held-out
-means only unseen rejected contrasts; forgetting test weak because
+means only unseen rejected contrasts; retention test weak because
 rows are independent) could not be tested there. This run uses a
 policy that shares weights: each prompt has a feature vector phi in
 R^6, logits are phi @ Theta, and the checker-correct action is
@@ -168,4 +168,4 @@ prompts it never trained on (0.275 to 0.538 on average). Misaligned
 preferences on some prompts spill over: at k = 4 the unseen-prompt
 gain is gone and even the aligned train prompts fall to 0.55. This
 is still a 6-dimensional linear toy, not a language model, but it is
-the forgetting effect the tabular check could not show.
+the task-loss effect the tabular check could not show.

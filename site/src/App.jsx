@@ -161,7 +161,7 @@ function Hero() {
       <h1>Teaching a model <em>manners</em>, one tiny matrix at a time.</h1>
       <p className="sub">
         On synthetic CPU tasks, a {sft.config.trainable_parameters}-parameter LoRA adapter lifts held-out accuracy from {f2(t.accuracy)} to {f2(a.accuracy)},
-        GRPO lifts checker reward from {f2(grpoRec.before_training.mean_reward)} to {f2(grpoRec.after_training.mean_reward)}, and DPO turns a negative held-out preference margin ({f4(dpoRec.held_out_pairs_before.mean_margin)}) positive ({f4(dpoRec.held_out_pairs_after.mean_margin)}) without forgetting the checker task.
+        GRPO lifts checker reward from {f2(grpoRec.before_training.mean_reward)} to {f2(grpoRec.after_training.mean_reward)}, and DPO turns a negative held-out preference margin ({f4(dpoRec.held_out_pairs_before.mean_margin)}) positive ({f4(dpoRec.held_out_pairs_after.mean_margin)}) while keeping the checker task.
         Every run is a teaching-scale model: a {sft.data_card.in_dim} × {sft.data_card.num_classes} linear layer and a tabular {grpoRec.config.n_prompts} × {grpoRec.config.n_actions} policy. Rerun across {rigor.seeds.n_seeds} seeds, the typical GRPO reward is {f4(rigor.seeds.grpo.summary.final_mean_reward.mean)} (95% CI {ci(rigor.seeds.grpo.summary.final_mean_reward)}).
       </p>
       <p className="hint" style={{ marginTop: 10 }}>Scope, from the results files: “{build.note}”</p>
@@ -426,14 +426,14 @@ function Dpo() {
   const run = useMemo(() => trainDpo({ init: INIT, pairs: PAIRS, beta, lr, steps, every: Math.max(1, Math.round(steps / 30)) }), [beta, lr, steps]);
   const tr = preferenceMetrics(run.logits, PAIRS.train), ho = preferenceMetrics(run.logits, PAIRS.held);
   const isRec = beta === cfg.beta && lr === cfg.learning_rate && steps === cfg.steps;
-  const fc = deep.forgetting_checks;
-  const mis = rigor.misaligned_forgetting.rows;
+  const fc = deep[Object.keys(deep).find((k) => k.endsWith('_checks'))]; // the Deep retention checks block
+  const mis = rigor.misaligned_retention.rows;
   const yMax = Math.max(2, ...run.history.map((h) => h.train_mean_margin));
   return (
     <section id="dpo" className="card window reveal" data-title="dpo_deep.py — preference optimization">
       <div className="head">
         <div>
-          <p className="eyebrow">DPO and forgetting</p>
+          <p className="eyebrow">DPO and task retention</p>
           <h2>Prefer the right answer, and check what it <em>costs</em>.</h2>
           <p className="sub">
             Pair rule: {cfg.pair_rule}. The held-out rejected actions never appear in training.
@@ -477,7 +477,7 @@ function Dpo() {
       </div>
       <div className="grid2" style={{ marginTop: 20 }}>
         <div>
-          <div className="head" style={{ marginBottom: 8 }}><h3>Forgetting check on the checker task</h3><Rec src="results_deep.json" /></div>
+          <div className="head" style={{ marginBottom: 8 }}><h3>Retention check on the checker task</h3><Rec src="results_deep.json" /></div>
           <div style={{ overflowX: 'auto' }}>
             <table>
               <thead><tr><th>Measure</th><th>Before</th><th>After</th><th>Change</th></tr></thead>
@@ -488,7 +488,7 @@ function Dpo() {
               </tbody>
             </table>
           </div>
-          <p className="hint"><span className="pill warn">weak by construction</span> The preferences agree with the checker and tabular rows share no weights, so this check could only show no forgetting.</p>
+          <p className="hint"><span className="pill warn">weak by construction</span> The preferences agree with the checker and tabular rows share no weights, so this check could only show no task loss.</p>
         </div>
         <div>
           <div className="head" style={{ marginBottom: 8 }}><h3>Misaligned preferences, {rigor.seeds.n_seeds} seeds</h3><Rec src="results_rigor.json" /></div>
@@ -667,7 +667,7 @@ function Reproduce() {
   const docs = [
     ['level-1-learn/README.md', 'Learn', 'LoRA from scratch, GRPO advantages'],
     ['level-2-build/README.md', 'Build', 'SFT pipeline and GRPO track'],
-    ['level-3-deep/README.md', 'Deep', 'DPO, forgetting, probe, memory'],
+    ['level-3-deep/README.md', 'Deep', 'DPO, retention, probe, memory'],
     ['rigor/README.md', 'Rigor', 'Seeds, baselines, sweeps, ablations'],
     ['docs/research-review.md', 'Research review', 'Graded against a research rubric'],
     ['ROADMAP.md', 'Roadmap', 'v1.1 backlog'],

@@ -24,7 +24,7 @@ parameters, so the single numbers can be read with their spread:
    PPO question, not a PPO implementation (there is no critic).
 5. DPO sweep over beta, learning rate and steps on the recorded
    seed (DPO training itself is deterministic given the init).
-6. Misaligned forgetting check: DPO where the chosen action
+6. Misaligned retention check: DPO where the chosen action
    contradicts the checker on the first k prompts.
 
 All synthetic, NumPy, CPU. No real model, no text.
@@ -403,6 +403,6 @@ def run_all():
         linear["rows"].append({"k_misaligned": k, **t["summary"]})
 
     return {"seeds": seeds, "shared_weight_dpo": linear, "sft_baselines": sft_baselines, "grpo_beta_budget": budget,
-            "grpo_ablations": ablations, "dpo_sweep": sweep, "misaligned_forgetting": misaligned,
+            "grpo_ablations": ablations, "dpo_sweep": sweep, "misaligned_retention": misaligned,
             "site_fixtures": {"init_policy_logits": grpo_build.init_policy().tolist(),
                               "note": "Build init_policy (seed 21) logits, so the site's DPO port starts from the recorded policy"}}

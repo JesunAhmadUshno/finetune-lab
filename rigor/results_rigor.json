@@ -1526,7 +1526,7 @@
     ]
   },
   "level": "rigor",
-  "misaligned_forgetting": {
+  "misaligned_retention": {
     "before_greedy_accuracy": {
       "ci95": [
         0.175,
