@@ -144,3 +144,28 @@ prompt where they disagree with the checker, and leave the other
 prompts untouched. That isolation is structural (tabular rows share
 no weights), so this check shows DPO follows the preference data
 over the task, not how far damage spreads in a shared-weight model.
+
+## Shared-weight DPO: unseen prompts and spill-over (10 seeds)
+
+The tabular policy cannot generalise to a new prompt and cannot
+spread damage between prompts, so two Deep deductions (held-out
+means only unseen rejected contrasts; forgetting test weak because
+rows are independent) could not be tested there. This run uses a
+policy that shares weights: each prompt has a feature vector phi in
+R^6, logits are phi @ Theta, and the checker-correct action is
+argmax(phi @ W_true). DPO trains on 8 prompts with the Build
+settings (beta 0.1, lr 0.5, 300 steps) and is scored on 8 unseen
+prompts drawn the same way.
+
+| k misaligned train prompts | Greedy on unseen prompts, before | After | Greedy on aligned train prompts, after |
+| --- | --- | --- | --- |
+| 0 | 0.2750 (CI 0.15 to 0.40) | 0.5375 (CI 0.40 to 0.675) | 0.7625 |
+| 2 | 0.2750 | 0.3125 (CI 0.2125 to 0.4125) | 0.7500 |
+| 4 | 0.2750 | 0.2500 (CI 0.1125 to 0.3875) | 0.5500 |
+
+Reading: with shared weights, aligned DPO lifts greedy accuracy on
+prompts it never trained on (0.275 to 0.538 on average). Misaligned
+preferences on some prompts spill over: at k = 4 the unseen-prompt
+gain is gone and even the aligned train prompts fall to 0.55. This
+is still a 6-dimensional linear toy, not a language model, but it is
+the forgetting effect the tabular check could not show.

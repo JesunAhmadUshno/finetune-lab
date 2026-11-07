@@ -45,6 +45,7 @@ Project: P10. Fleet node: BlackBox (GPU). Wave: Wave 5.
 | Rigor: GRPO fresh-sample mean reward after 60 iterations, 10 seeds | mean 0.9465, std 0.0215, CI 0.9340 to 0.9590 (the recorded 0.9766 is the best seed) |
 | Rigor: DPO held-out preference margin, 10 seeds | mean 0.8832, std 0.0395, CI 0.8603 to 0.9065 |
 | Rigor: misaligned DPO, chosen action contradicts the checker on 4 of 8 prompts, 10 seeds | greedy accuracy 0.5000 after (0.0000 on the misaligned prompts, 1.0000 on the rest) |
+| Rigor: shared-weight DPO (linear policy over prompt features), greedy accuracy on 8 unseen prompts, 10 seeds | 0.2750 before, 0.5375 after; with 4 of 8 train prompts misaligned, 0.2500 after |
 
 Rigor rows come from rigor/results_rigor.json (python3 rigor/run_rigor.py); the KL beta sweep, GRPO ablations and the 36-setting DPO sweep are in rigor/README.md.
 

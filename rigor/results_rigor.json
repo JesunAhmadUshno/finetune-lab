@@ -2195,6 +2195,185 @@
       }
     ]
   },
+  "shared_weight_dpo": {
+    "policy": "logits = phi @ Theta, phi in R^6 per prompt, 8 train and 8 unseen prompts, Build DPO settings (beta 0.1, lr 0.5, 300 steps)",
+    "rows": [
+      {
+        "aligned_train_greedy_after": {
+          "ci95": [
+            0.7125,
+            0.8125
+          ],
+          "max": 0.875,
+          "mean": 0.7625,
+          "min": 0.625,
+          "n": 10,
+          "std": 0.0922
+        },
+        "k_misaligned": 0,
+        "train_greedy_after": {
+          "ci95": [
+            0.7125,
+            0.8125
+          ],
+          "max": 0.875,
+          "mean": 0.7625,
+          "min": 0.625,
+          "n": 10,
+          "std": 0.0922
+        },
+        "train_greedy_before": {
+          "ci95": [
+            0.125,
+            0.3
+          ],
+          "max": 0.375,
+          "mean": 0.2125,
+          "min": 0.0,
+          "n": 10,
+          "std": 0.1449
+        },
+        "unseen_greedy_after": {
+          "ci95": [
+            0.4,
+            0.675
+          ],
+          "max": 0.875,
+          "mean": 0.5375,
+          "min": 0.25,
+          "n": 10,
+          "std": 0.2361
+        },
+        "unseen_greedy_before": {
+          "ci95": [
+            0.15,
+            0.4
+          ],
+          "max": 0.625,
+          "mean": 0.275,
+          "min": 0.0,
+          "n": 10,
+          "std": 0.2108
+        }
+      },
+      {
+        "aligned_train_greedy_after": {
+          "ci95": [
+            0.6833,
+            0.8166
+          ],
+          "max": 0.8333,
+          "mean": 0.75,
+          "min": 0.5,
+          "n": 10,
+          "std": 0.1178
+        },
+        "k_misaligned": 2,
+        "train_greedy_after": {
+          "ci95": [
+            0.5125,
+            0.675
+          ],
+          "max": 0.875,
+          "mean": 0.5875,
+          "min": 0.375,
+          "n": 10,
+          "std": 0.1324
+        },
+        "train_greedy_before": {
+          "ci95": [
+            0.125,
+            0.3
+          ],
+          "max": 0.375,
+          "mean": 0.2125,
+          "min": 0.0,
+          "n": 10,
+          "std": 0.1449
+        },
+        "unseen_greedy_after": {
+          "ci95": [
+            0.2125,
+            0.4125
+          ],
+          "max": 0.625,
+          "mean": 0.3125,
+          "min": 0.125,
+          "n": 10,
+          "std": 0.1693
+        },
+        "unseen_greedy_before": {
+          "ci95": [
+            0.15,
+            0.4
+          ],
+          "max": 0.625,
+          "mean": 0.275,
+          "min": 0.0,
+          "n": 10,
+          "std": 0.2108
+        }
+      },
+      {
+        "aligned_train_greedy_after": {
+          "ci95": [
+            0.425,
+            0.65
+          ],
+          "max": 0.75,
+          "mean": 0.55,
+          "min": 0.25,
+          "n": 10,
+          "std": 0.1972
+        },
+        "k_misaligned": 4,
+        "train_greedy_after": {
+          "ci95": [
+            0.2125,
+            0.325
+          ],
+          "max": 0.375,
+          "mean": 0.275,
+          "min": 0.125,
+          "n": 10,
+          "std": 0.0986
+        },
+        "train_greedy_before": {
+          "ci95": [
+            0.125,
+            0.3
+          ],
+          "max": 0.375,
+          "mean": 0.2125,
+          "min": 0.0,
+          "n": 10,
+          "std": 0.1449
+        },
+        "unseen_greedy_after": {
+          "ci95": [
+            0.1125,
+            0.3875
+          ],
+          "max": 0.625,
+          "mean": 0.25,
+          "min": 0.0,
+          "n": 10,
+          "std": 0.2357
+        },
+        "unseen_greedy_before": {
+          "ci95": [
+            0.15,
+            0.4
+          ],
+          "max": 0.625,
+          "mean": 0.275,
+          "min": 0.0,
+          "n": 10,
+          "std": 0.2108
+        }
+      }
+    ]
+  },
   "site_fixtures": {
     "init_policy_logits": [
       [

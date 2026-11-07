@@ -109,6 +109,17 @@ class TestGRPOGradientNormalization(unittest.TestCase):
         self.assertGreater(float(np.abs(grad - self.numeric).max()), 1e-3)
 
 
+class TestSharedWeightDPO(unittest.TestCase):
+    def test_deterministic(self):
+        self.assertEqual(rigor_study.run_linear_dpo(3, 2), rigor_study.run_linear_dpo(3, 2))
+
+    def test_aligned_dpo_reaches_unseen_prompts_on_average(self):
+        rows = [rigor_study.run_linear_dpo(s, 0) for s in range(10)]
+        before = np.mean([r["unseen_greedy_before"] for r in rows])
+        after = np.mean([r["unseen_greedy_after"] for r in rows])
+        self.assertGreater(after, before)
+
+
 class TestResultsFile(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

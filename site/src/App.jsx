@@ -499,6 +499,14 @@ function Dpo() {
             </table>
           </div>
           <p className="hint">The stronger test: where preferences contradict the checker, DPO follows the preferences and the task is lost on exactly those prompts. Damage cannot spread here because rows are independent.</p>
+          <h3 style={{ marginTop: 16 }}>With shared weights, damage spreads</h3>
+          <div style={{ overflowX: 'auto' }}>
+            <table>
+              <thead><tr><th>Misaligned train prompts</th><th>Unseen prompts, greedy before → after</th><th>Aligned train prompts after</th></tr></thead>
+              <tbody>{rigor.shared_weight_dpo.rows.map((r) => <tr key={r.k_misaligned}><td>{r.k_misaligned}</td><td>{f4(r.unseen_greedy_before.mean)} → {f4(r.unseen_greedy_after.mean)}</td><td>{f4(r.aligned_train_greedy_after.mean)}</td></tr>)}</tbody>
+            </table>
+          </div>
+          <p className="hint">A linear policy (logits = φ·Θ) trained on some prompts and scored on unseen ones, {rigor.seeds.n_seeds}-seed means. Aligned DPO generalizes to new prompts; contradicting preferences erase that gain and hurt the aligned prompts too.</p>
         </div>
       </div>
     </section>

@@ -260,6 +260,63 @@ def run_dpo_cfg(seed_offset=0, beta=dpo_deep.BETA, lr=dpo_deep.LEARNING_RATE,
                 grpo_build.softmax_rows(logits), grpo_build.softmax_rows(init)).mean()), 4)}
 
 
+# ------------------------------------------- shared-weight DPO policy
+
+LINEAR_DIM = 6
+LINEAR_PROMPTS = 8
+LINEAR_SEED = 51
+
+
+def run_linear_dpo(seed_offset=0, k_misaligned=0, beta=dpo_deep.BETA,
+                   lr=dpo_deep.LEARNING_RATE, steps=dpo_deep.STEPS):
+    """DPO on a policy that shares weights across prompts.
+
+    Each prompt has a feature vector phi (dim 6) and the logits are
+    phi @ Theta, so one update moves every prompt. The checker-correct
+    action is argmax(phi @ W_true). DPO trains on 8 prompts and is
+    scored on 8 unseen prompts drawn the same way. With k_misaligned
+    > 0 the first k train prompts prefer correct plus 1 over correct,
+    which tests whether contradicting preferences spill over to the
+    other prompts, which the tabular policy cannot show.
+    """
+    rng = np.random.default_rng(LINEAR_SEED + SEED_STRIDE * seed_offset)
+    n_a = grpo_build.N_ACTIONS
+    phi = rng.standard_normal((2 * LINEAR_PROMPTS, LINEAR_DIM))
+    correct = np.argmax(phi @ rng.standard_normal((LINEAR_DIM, n_a)), axis=1)
+    theta0 = rng.standard_normal((LINEAR_DIM, n_a)) * 0.1
+    train = range(LINEAR_PROMPTS)
+    pairs = []
+    for p in train:
+        c, w = int(correct[p]), (int(correct[p]) + 1) % n_a
+        pairs.append((p, w, c) if p < k_misaligned else (p, c, w))
+
+    def lp(theta):
+        return np.log(grpo_build.softmax_rows(phi @ theta) + 1e-12)
+
+    ref = lp(theta0)
+    theta = theta0.copy()
+    for _ in range(steps):
+        cur = lp(theta)
+        grad = np.zeros_like(theta)
+        for p, c, r in pairs:
+            margin = (cur[p, c] - ref[p, c]) - (cur[p, r] - ref[p, r])
+            f = -beta * (1.0 - 1.0 / (1.0 + np.exp(-beta * margin))) / len(pairs)
+            grad += f * np.outer(phi[p], np.eye(n_a)[c] - np.eye(n_a)[r])
+        theta = theta - lr * grad
+
+    def greedy(theta_, idx):
+        return round(float(np.mean(np.argmax(phi[idx] @ theta_, axis=1) == correct[idx])), 4)
+
+    aligned = list(range(k_misaligned, LINEAR_PROMPTS))
+    unseen = list(range(LINEAR_PROMPTS, 2 * LINEAR_PROMPTS))
+    return {"seed_offset": seed_offset,
+            "unseen_greedy_before": greedy(theta0, unseen),
+            "unseen_greedy_after": greedy(theta, unseen),
+            "aligned_train_greedy_after": greedy(theta, aligned),
+            "train_greedy_before": greedy(theta0, list(train)),
+            "train_greedy_after": greedy(theta, list(train))}
+
+
 # ---------------------------------------------------------------- run
 
 def _seed_track(fn, keys, **kw):
@@ -337,7 +394,15 @@ def run_all():
               for s in range(N_SEEDS)]
     misaligned["before_greedy_accuracy"] = summarize([b["greedy_accuracy"] for b in before])
 
-    return {"seeds": seeds, "sft_baselines": sft_baselines, "grpo_beta_budget": budget,
+    linear = {"policy": "logits = phi @ Theta, phi in R^6 per prompt, 8 train and 8 unseen prompts, Build DPO settings (beta 0.1, lr 0.5, 300 steps)",
+              "rows": []}
+    lkeys = ("unseen_greedy_before", "unseen_greedy_after", "aligned_train_greedy_after",
+             "train_greedy_before", "train_greedy_after")
+    for k in (0, 2, 4):
+        t = _seed_track(run_linear_dpo, lkeys, k_misaligned=k)
+        linear["rows"].append({"k_misaligned": k, **t["summary"]})
+
+    return {"seeds": seeds, "shared_weight_dpo": linear, "sft_baselines": sft_baselines, "grpo_beta_budget": budget,
             "grpo_ablations": ablations, "dpo_sweep": sweep, "misaligned_forgetting": misaligned,
             "site_fixtures": {"init_policy_logits": grpo_build.init_policy().tolist(),
                               "note": "Build init_policy (seed 21) logits, so the site's DPO port starts from the recorded policy"}}
