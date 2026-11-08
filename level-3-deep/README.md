@@ -4,7 +4,7 @@ Status: DONE (2026-11-05, Sprint 3 early pull under the December
 compression protocol: the single hardest capability in the SPEC
 Deep scope, built, tested, benchmarked, with failure modes
 written; the rest of the v2 Deep scope is the v1.1 backlog in
-the root ROADMAP.md). The Deep core here is a small DPO run
+the root REPORT.md (open work)). The Deep core here is a small DPO run
 with forgetting checks and a QLoRA memory study, plus the
 reward hacking probe the SPEC Deep text asks for as its failure
 log entry. All NumPy, all synthetic, all on Muse VM CPU.
@@ -184,32 +184,20 @@ Three named checks, run in code, outcomes recorded:
   loaded or trained in this level.
 - Run on the Muse VM, CPU, by this project's CPU teaching
   scale design, not on the BlackBox GPU node. The CPU
-  location is a named grade deduction, not a silent
+  location is a named limit, not a silent
   substitution.
 - One beta, one learning rate, one seed configuration. No
   sweep is claimed.
 
-## Grade
+## Limits named at review
 
-Deep: 8,000 of 10,000. Deductions, itemized:
-
-- Toy NumPy tabular policy, not a real LLM, no text or
-  sequence modelling: minus 600.
-- Synthetic preferences from a deterministic checker rule,
-  not human or model preference data: minus 350.
-- QLoRA memory study is accounting from parameter counts,
-  not measured GPU memory, and no 4-bit model was run:
-  minus 300.
-- Run on the Muse VM CPU, not the BlackBox GPU node, by
-  this project's CPU teaching design: minus 250.
-- Forgetting test is weak by construction (aligned
-  preferences, independent tabular rows): minus 200.
-- One beta, one learning rate, one seed configuration, no
-  hyperparameter sweep: minus 150.
-- Held-out means unseen rejected contrasts on known prompts
-  only, not unseen prompts or tasks: minus 150.
-
-Total deductions 2,000. 10,000 minus 2,000 = 8,000.
+- Toy NumPy tabular policy, not a real LLM, no text or sequence modelling.
+- Synthetic preferences from a deterministic checker rule, not human or model preference data.
+- QLoRA memory study is accounting from parameter counts, not measured GPU memory, and no 4-bit model was run.
+- Run on the Muse VM CPU, not the BlackBox GPU node, by this project's CPU teaching design.
+- Forgetting test is weak by construction (aligned preferences, independent tabular rows).
+- One beta, one learning rate, one seed configuration, no hyperparameter sweep.
+- Held-out means unseen rejected contrasts on known prompts only, not unseen prompts or tasks.
 
 ## Run it
 

@@ -24,8 +24,7 @@ preferences are synthetic from a deterministic checker rule,
 and all work ran on CPU, not on a GPU node.
 
 Status: v1.0, 2026-11-05. Learn, Build, and compressed Deep are
-done. Total tests: 39, all passing at v1.0. Level grades: Learn
-8,200 of 10,000, Build 8,300 of 10,000, Deep 8,000 of 10,000.
+done. Total tests: 39, all passing at v1.0.
 
 ## Results
 
@@ -53,7 +52,7 @@ not production fine-tuning quality.
 - Held-out in Deep means unseen rejected contrasts on known
   prompts, not unseen prompts or tasks.
 - Compressed Deep is not the full v2 Deep scope. The remainder
-  is the v1.1 backlog in the repo ROADMAP.md.
+  is the v1.1 backlog in the repo REPORT.md (open work).
 
 ## Links
 

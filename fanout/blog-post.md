@@ -32,22 +32,20 @@ Repository: https://github.com/JesunAhmadUshno/finetune-lab
 
 Past: fine-tuning recipes in framework docs (the TRL class)
 already exist. The prior art and the problem history are
-recorded in DOSSIER.md and NOVELTY.md in the repo. The novelty
+recorded in REPORT.md (background) and PROPOSAL.md (prior work) in the repo. The novelty
 claim there stays marked PROPOSED. This post makes no novelty
 claim beyond the measured work below. The methods are the
 standard published ones, rebuilt from scratch in NumPy for
 teaching: LoRA, GRPO, DPO, and QLoRA studied as accounting.
 
 Present: v1.0 closes three levels on 2026-11-05. Learn built
-LoRA from scratch and hand-checked GRPO advantages (grade 8,200
-of 10,000). Build added a full SFT-style pipeline with
+LoRA from scratch and hand-checked GRPO advantages. Build added a full SFT-style pipeline with
 checkpointing and an eval harness, plus a GRPO track that
-trains a tabular toy policy (grade 8,300 of 10,000). Compressed
+trains a tabular toy policy. Compressed
 Deep added a DPO run on the Build tabular policy, forgetting
-checks, a reward hacking probe, and a QLoRA accounting study
-(grade 8,000 of 10,000).
+checks, a reward hacking probe, and a QLoRA accounting study.
 
-Future: the rest of the v2 Deep scope is named in ROADMAP.md in
+Future: the rest of the v2 Deep scope is named in REPORT.md (open work) in
 the repo as the v1.1 backlog. It includes a real open-model
 run, a measured QLoRA study, stronger misaligned forgetting
 checks, a GRPO budget and KL beta study, DPO hyperparameter
@@ -89,7 +87,7 @@ and scoring a whole group per prompt.
 | Tests | 14 |
 | Determinism | results_learn.json identical across two runs |
 
-Grade: 8,200 of 10,000, deductions itemized in the Learn README.
+Limits are itemized in the Learn README.
 
 ### Level 2, Build (release v0.5)
 
@@ -114,7 +112,7 @@ and Learn test numbers are not the same set.
 | Final mean KL to reference | 1.1795 nats at beta 0.04 |
 | Tests | 14 Build, 28 in total at that level |
 
-Grade: 8,300 of 10,000, deductions itemized in the Build README.
+Limits are itemized in the Build README.
 Two limits are named in that README, not hidden: validation
 accuracy reaches 0.9375 at epoch 10 and ends at 0.9141, so the
 run mildly overfits and ships the final epoch adapter with no
@@ -172,17 +170,13 @@ in the code and the README.
 Tests: 11 Deep tests, 39 in total with Learn and Build.
 Determinism: results_deep.json identical across two runs.
 
-Grade: 8,000 of 10,000. Deductions are itemized in the Deep
-README: minus 600 for a toy NumPy tabular policy, not a real
-LLM; minus 350 for synthetic preferences from a deterministic
-checker rule; minus 300 because QLoRA is accounting, not
-measured GPU memory; minus 250 for running on Muse VM CPU,
-not the BlackBox GPU node; minus 200 because the forgetting
-test is weak by construction; minus 150 for one beta, one
-learning rate, and one seed with no sweep; and minus 150
-because held-out means unseen rejected contrasts on known
-prompts only. Total deductions 2,000, and 10,000 minus 2,000
-is 8,000.
+Limits are itemized in the Deep README: a toy NumPy tabular
+policy, not a real LLM; synthetic preferences from a
+deterministic checker rule; QLoRA as accounting, not measured
+GPU memory; runs on Muse VM CPU, not the BlackBox GPU node; a
+forgetting test weak by construction; one beta, one learning
+rate, and one seed with no sweep; and held-out meaning unseen
+rejected contrasts on known prompts only.
 
 ## Honest limits
 
@@ -212,10 +206,10 @@ is 8,000.
   Deep, and a fixed learning rate in Learn and Build. No sweep
   is claimed.
 - Compressed Deep is not the full v2 Deep scope. The remainder
-  is the named v1.1 backlog in ROADMAP.md.
+  is the named v1.1 backlog in REPORT.md (open work).
 - The runs executed on the Muse VM, CPU, by this project's
   CPU teaching scale design, not on the BlackBox GPU node.
-  That deduction is named in each level grade.
+  That limit is named in each level README.
 
 ## Where to go next
 
@@ -223,6 +217,6 @@ is 8,000.
   module that runs all three levels and the full test suite.
 - Releases: v0.1 (Learn), v0.5 (Build), v1.0 (Learn, Build,
   compressed Deep) on the GitHub repo linked above.
-- Book chapter: "Teaching The Model Manners" per SPEC.md, held
+- Book chapter: "Teaching The Model Manners" per PROPOSAL.md (original scope), held
   as a draft angle in this fan-out set.
 - License: code Apache-2.0, tutorials CC BY 4.0.

@@ -24,7 +24,6 @@ URL: https://github.com/JesunAhmadUshno/finetune-lab/releases/tag/v0.1
   unchanged.
 - Tests: 14 unit tests in tests/test_learn_finetune.py, plus
   the scaffold smoke test.
-- Grade: 8,200 of 10,000, per the batch ledger.
 - Limits carried in the release: synthetic task, true change
   rank 2 by construction, one linear layer, GRPO advantages
   only with no policy training.
@@ -47,7 +46,6 @@ URL: https://github.com/JesunAhmadUshno/finetune-lab/releases/tag/v0.5
   1.0000 (8 of 8), final mean KL to the reference policy
   1.1795 at beta 0.04.
 - Tests: 14 Build unit tests, 28 in total with Learn.
-- Grade: 8,300 of 10,000, per the batch ledger.
 - Limits carried in the release: synthetic tasks only, the SPEC
   open-model wording is not met, scoring is this repo's own
   harness not the P06 harness, validation peaks before the
@@ -79,8 +77,6 @@ URL: https://github.com/JesunAhmadUshno/finetune-lab/releases/tag/v1.0
   accounting, 7B row: 3,516,777,216 bytes against
   14,000,000,000 full fp16 bytes, fraction 0.2512.
 - Tests: 11 Deep unit tests, 39 in total with Learn and Build.
-- Grade: 8,000 of 10,000, deductions itemized in the Deep README
-  (total deductions 2,000).
 - The rest of the v2 Deep scope is the v1.1 backlog in
-  ROADMAP.md. It is not part of v1.0 and is not claimed by these
+  REPORT.md (open work). It is not part of v1.0 and is not claimed by these
   notes.

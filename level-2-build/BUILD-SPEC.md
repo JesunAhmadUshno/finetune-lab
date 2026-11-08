@@ -1,11 +1,11 @@
 # BUILD-SPEC: finetune-lab Level 2, Build (P10)
 
 Status: DONE 2026-11-05 (early, Sprint 3 pull). This spec states
-what Build had to do, in the SPEC.md Build scope, and how each item
+what Build had to do, in the PROPOSAL.md (original scope) Build scope, and how each item
 is evidenced. No item closes on a claim: code, tests, and measured
 numbers only.
 
-## Scope from SPEC.md
+## Scope from PROPOSAL.md (original scope)
 
 Build: one small GRPO run on an open model with a verifiable task
 (math or code with a checker), scored before and after. Plus the
@@ -32,7 +32,7 @@ pipeline (data build, train, evaluate before and after).
    and the wider batch pattern scores with the P06 harness. This
    Build runs on a NumPy tabular toy policy, not an open language
    model, and scores with its own harness, not the P06 harness.
-   That gap is a graded deduction (see README grade), not a
+   That gap is a named limit (see the README limits), not a
    footnote. A real open-model GRPO run needs a GPU window and a
    model download; it is listed in the level README as the top
    follow-up and belongs with the Deep budget study.

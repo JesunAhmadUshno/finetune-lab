@@ -1,14 +1,24 @@
 name: ci
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
 jobs:
-  tests:
+  test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
       - name: install pinned dependencies
         run: python -m pip install -r requirements.txt
-      - name: full test suite
-        run: python -m unittest discover -s tests
+      - name: full test suite, including the layout test
+        run: python -m unittest discover -s tests -v
+      - name: results regenerate unchanged from the runners
+        run: python scripts/check_results.py
