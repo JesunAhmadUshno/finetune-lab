@@ -144,7 +144,7 @@ Learn computed advantages and stopped. Build trains.
 - Synthetic tasks and NumPy teaching models only. No real LLM,
   no real text or instruction data, no tokenizer, no open
   model run. The SPEC Build words "on an open model" are not
-  met by this level; see BUILD-SPEC.md and the grade.
+  met by this level; see BUILD-SPEC.md and the limits below.
 - Scoring is this repo's own eval harness, not the P06 harness.
 - One linear layer, no bias term, fixed learning rate, no
   optimizer state in the checkpoint, npz checkpoint format
@@ -152,29 +152,18 @@ Learn computed advantages and stopped. Build trains.
 - Run on the Muse VM, CPU, by this level's CPU teaching scale
   design, not on the BlackBox GPU node. BlackBox was verified
   on this cycle by the coordinator; no GPU step was due for
-  this NumPy build, and the CPU location is a named grade
-  deduction, not a silent substitution.
+  this NumPy build, and the CPU location is a named limit,
+  not a silent substitution.
 
-## Grade
+## Limits named at review
 
-Build: 8,300 of 10,000. Deductions, itemized:
-
-- Synthetic tasks and NumPy teaching models, not a real LLM
-  or real data: minus 600.
-- SPEC gap: GRPO on a toy tabular policy with this repo's own
-  harness, not on an open model scored by the P06 harness:
-  minus 400.
-- Run on the Muse VM CPU, not the BlackBox GPU node, by this
-  level's CPU teaching design: minus 250.
-- True change rank 2 by construction in the SFT track:
-  minus 150.
-- GRPO task is 8 prompts with a binary checker only, no
-  reward hacking probe (Deep scope): minus 150.
-- One linear layer, no bias, fixed learning rate, no
-  optimizer state in the checkpoint: minus 100.
-- Checkpoint in npz format, not safetensors: minus 50.
-
-Total deductions 1,700. 10,000 minus 1,700 = 8,300.
+- Synthetic tasks and NumPy teaching models, not a real LLM or real data.
+- SPEC gap: GRPO on a toy tabular policy with this repo's own harness, not on an open model scored by the P06 harness.
+- Run on the Muse VM CPU, not the BlackBox GPU node, by this level's CPU teaching design.
+- True change rank 2 by construction in the SFT track.
+- GRPO task is 8 prompts with a binary checker only, no reward hacking probe (Deep scope).
+- One linear layer, no bias, fixed learning rate, no optimizer state in the checkpoint.
+- Checkpoint in npz format, not safetensors.
 
 ## Run it
 

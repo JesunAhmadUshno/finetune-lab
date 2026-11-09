@@ -1,17 +1,12 @@
 # PUBLICITY: finetune-lab (P10)
 
 Publicity log under the documentation and publishing standard,
-Section 7. Every finished level produces its written fan-out set,
-each piece graded on the 1,000-point publicity rubric (accuracy 300,
-research 200, gap fit 200, clarity 150, reach format 150), ship line
-900. Drafts are prepared by the loop. Actual social posting follows
+Section 7. Every finished level produces its written fan-out set. Drafts are prepared by the loop. Actual social posting follows
 the standing platform rules and gates. The loop itself never posts
 to social.
 
 Fan-out set date: 2026-11-05. Project state: v1.0, Learn, Build,
-and compressed Deep done 2026-11-05, 39 tests passing. Level
-grades on record: Learn 8,200 of 10,000, Build 8,300 of 10,000,
-Deep 8,000 of 10,000. Deep detail: a small DPO run on the Build
+and compressed Deep done 2026-11-05, 39 tests passing. Deep detail: a small DPO run on the Build
 tabular GRPO policy (beta 0.1, frozen reference, 300 steps) raised
 held-out mean margin from -0.0654 to 0.8297 (+0.8951) and held-out
 preference accuracy from 0.4375 (7 of 16) to 1.0000 (16 of 16),
@@ -30,6 +25,28 @@ fp16 bytes, fraction 0.2512. All work is toy NumPy teaching work,
 not a real LLM: synthetic preferences from a deterministic
 checker rule, CPU teaching work on the Muse VM, not BlackBox GPU.
 
+## Fan-out set (moved from README.md)
+
+Written fan-out set for v1.0, dated 2026-11-05, in fanout/:
+
+- fanout/blog-post.md: "Teaching The Model Manners", the full
+  story with the main results claim gated by Jev claim_check
+  (model jev-1.13.0, noul 0.86, route CLEAR, no block).
+- fanout/tutorial.md: course module P10-finetune-lab. Every
+  command in it was executed and passed on 2026-11-05 (all three
+  runners, all per-level tests, full suite at 39 tests).
+- fanout/website-page.md: project page copy only, not published.
+- fanout/linkedin-post.md: DRAFT NOT POSTED, link as the
+  first-comment line per the LinkedIn rule.
+- fanout/paper-candidate.md: rejected-only suppression hacking
+  pattern note at CANDIDATE. Submission is Jesun's tap, nothing
+  submitted.
+- fanout/release-notes.md: draft notes for the live releases
+  v0.1, v0.5, and v1.0.
+
+ The loop never posts to social:
+all social channels are held with named reasons in PUBLICITY.md.
+
 ## Channel log (2026-11-05)
 
 | Channel | Outcome on 2026-11-05 |
@@ -45,54 +62,8 @@ checker rule, CPU teaching work on the Muse VM, not BlackBox GPU.
 | Instagram | Draft held: no Instagram copy posted. Standing rule applies (no clickable link in caption, link in bio). Held: not posted, loop never posts. |
 | Threads | Draft held: no Threads copy posted. Threads waits for Jesun's tap per post, hash-locked on exact text and media. Held: awaiting Jesun's tap. |
 | Video | Held: engine queue, January production for lab projects per the December Compression Protocol. No video was produced in this cycle. |
-| Book chapter | Draft angle in fanout/blog-post.md and SPEC.md ("Teaching The Model Manners"). Held: chapter draft follows the finished project set; not a published chapter. |
+| Book chapter | Draft angle in fanout/blog-post.md and PROPOSAL.md (original scope) ("Teaching The Model Manners"). Held: chapter draft follows the finished project set; not a published chapter. |
 | Paper candidate | Draft brief in fanout/paper-candidate.md (rejected-only suppression hacking pattern in miniature). Submission is Jesun's tap. Nothing submitted, no venue contacted. The publications tracker is updated by the coordinator, not by this cycle. |
-
-## Publicity grades (1,000-point rubric, ship line 900)
-
-| Piece | Accuracy /300 | Research /200 | Gap fit /200 | Clarity /150 | Reach format /150 | Total /1000 |
-| --- | --- | --- | --- | --- | --- | --- |
-| fanout/blog-post.md | 294 | 187 | 194 | 145 | 140 | 960 |
-| fanout/tutorial.md | 297 | 184 | 195 | 147 | 142 | 965 |
-| fanout/website-page.md | 292 | 180 | 190 | 146 | 144 | 952 |
-| fanout/linkedin-post.md | 287 | 174 | 190 | 144 | 140 | 935 |
-| fanout/paper-candidate.md | 295 | 196 | 195 | 142 | 130 | 958 |
-| fanout/release-notes.md | 295 | 182 | 183 | 144 | 138 | 942 |
-
-All six pieces are at or above the 900 ship line. No piece was
-shipped ungraded. Overall fan-out grade: 9,520 of 10,000 (mean of
-the six piece totals, 952 of 1,000; the six totals sum to 5,712
-and 5,712 divided by 6 is 952).
-
-## Named deductions (unclosable in this cycle)
-
-- Blog post, minus 40: research is condensed from DOSSIER.md v1,
-  whose prior art section is brief (minus 13 research); the toy
-  synthetic scale limits how far the results travel, stated in
-  the piece (minus 10 reach, minus 6 accuracy for reader
-  interpretation risk, minus 6 gap fit, minus 5 clarity).
-- Tutorial, minus 35: research framing is thinner than the blog
-  by design, because the module teaches runs rather than the
-  field (minus 16 research); no worked example beyond the shipped
-  sets (minus 5 gap fit, minus 3 clarity, minus 8 reach, minus 3
-  accuracy).
-- Website page, minus 48: condensed research (minus 20),
-  condensed gap framing (minus 10), and the page is copy only,
-  not a live page (minus 6 reach, minus 8 accuracy, minus 4
-  clarity).
-- LinkedIn post, minus 65: short form compresses the research
-  and the failure mode detail (minus 26 research, minus 13
-  accuracy, minus 10 gap fit, minus 6 clarity, minus 10 reach,
-  because the post is a held draft and carries no live link in
-  the body by rule).
-- Paper candidate, minus 42: this is a brief, not a drafted paper
-  (minus 20 reach, minus 8 clarity); venue is classed, not named
-  (minus 4 research, minus 5 gap fit, minus 5 accuracy for the
-  synthetic-only evidence base the paper must carry).
-- Release notes, minus 58: notes summarise releases that already
-  exist, so research and gap framing are summary grade (minus 18
-  research, minus 17 gap fit); format is repo-bound (minus 12
-  reach, minus 5 accuracy, minus 6 clarity).
 
 ## Jev gate (2026-11-05)
 

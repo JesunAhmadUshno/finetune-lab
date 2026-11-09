@@ -4,7 +4,8 @@ import build from '../../level-2-build/results_build.json';
 import deepFile from '../../level-3-deep/results_deep.json';
 import rigor from '../../rigor/results_rigor.json';
 import deepReadme from '../../level-3-deep/README.md?raw';
-import roadmap from '../../ROADMAP.md?raw';
+import report from '../../REPORT.md?raw';
+import readme from '../../README.md?raw';
 import {
   memoryRow, groupAdvantages, makePairs, preferenceMetrics, trainDpo, suppress, greedyAccuracy,
   expectedReward, trainGrpo, makeLoraTask, trainLora, loraParams, meanKl, softmaxRows,
@@ -611,39 +612,41 @@ function Memory() {
   );
 }
 
-function parseGrade(md) {
-  const sec = md.split('## Grade')[1].split('\n## ')[0];
-  const [, got, outOf] = sec.match(/Deep: ([\d,]+) of ([\d,]+)/);
-  const items = sec.split('\n- ').slice(1).map((b) => b.replace(/\s+/g, ' ').trim()).map((b) => b.match(/^(.*): minus ([\d,]+)\.?/s)).filter(Boolean).map(([, t, n]) => [t, +n.replace(/,/g, '')]);
-  return { got: +got.replace(/,/g, ''), outOf: +outOf.replace(/,/g, ''), items };
+// Deep limits: the bullets under '## Limits named at review' in level-3-deep/README.md.
+function parseLimits(md) {
+  const sec = md.split('## Limits named at review')[1].split('\n## ')[0];
+  return sec.split('\n- ').slice(1).map((b) => b.replace(/\s+/g, ' ').trim());
+}
+// Verdict: the paragraph after '**Verdict.**' in README.md.
+function parseVerdict(md) {
+  return md.split('**Verdict.**')[1].split('\n\n')[0].replace(/\s+/g, ' ').trim();
 }
 function parseRoadmap(md) {
-  const sec = md.split('## v1.1 backlog')[1].split('\n## ')[0];
+  const sec = md.split('### v1.1 backlog')[1].split('\n### ')[0];
   return sec.split(/\n(?=\d+\. )/).slice(1).map((b) => { const t = b.replace(/\s+/g, ' ').trim(); const [, n, rest] = t.match(/^(\d+)\. (.*)$/); const i = rest.indexOf(': '); return { n: +n, title: i > 0 ? rest.slice(0, i) : rest, body: i > 0 ? rest.slice(i + 2) : '' }; });
 }
 const RIGOR_STATUS = { 3: 'Partly done: misaligned check in rigor/', 4: 'Done at toy scale: β sweep in rigor/', 5: 'Partly done: 36-setting sweep in rigor/', 8: 'Partly done: best-val selection in rigor/' };
 
 function Limits() {
-  const g = useMemo(() => parseGrade(deepReadme), []);
-  const items = useMemo(() => parseRoadmap(roadmap), []);
-  const total = g.items.reduce((a, [, n]) => a + n, 0);
+  const limits = useMemo(() => parseLimits(deepReadme), []);
+  const items = useMemo(() => parseRoadmap(report), []);
+  const verdict = useMemo(() => parseVerdict(readme), []);
   return (
-    <section id="limits" className="card window reveal" data-title="ROADMAP.md — honest limits">
+    <section id="limits" className="card window reveal" data-title="REPORT.md — honest limits">
       <p className="eyebrow">Honest limits and roadmap</p>
       <h2>What this lab does <em>not</em> show yet.</h2>
-      <p className="sub">There is no real language model anywhere in this repo: no text, no tokenizer, no open-model run, and no measured GPU memory. The Deep level grades itself {fmt(g.got)} of {fmt(g.outOf)} and itemizes why. The full research review is in <a href={blob('docs/research-review.md')}>docs/research-review.md</a>.</p>
+      <p className="sub">There is no real language model anywhere in this repo: no text, no tokenizer, no open-model run, and no measured GPU memory. The full report, with every hypothesis and miss, is in <a href={blob('REPORT.md')}>REPORT.md</a>.</p>
+      <p className="hint" style={{ marginTop: 8 }}><b>Verdict.</b> {verdict}</p>
       <div className="grid2" style={{ marginTop: 16 }}>
         <div>
-          <div className="head" style={{ marginBottom: 8 }}><h3>Deep grade deductions</h3><span className="pill warn">{fmt(g.got)} / {fmt(g.outOf)}</span></div>
-          <div className="bars">
-            {g.items.map(([t, n]) => (
-              <div className="bar-row" key={t}><div className="lab"><span>{t}</span><b>−{n}</b></div><div className="track"><div className="fill" style={{ width: pct(n / g.items[0][1]), background: 'var(--bad)' }} /></div></div>
-            ))}
-          </div>
-          <p className="hint" style={{ marginTop: 10 }}>Deductions sum to {fmt(total)} = {fmt(g.outOf)} − {fmt(g.got)}. Parsed from level-3-deep/README.md at build time.</p>
+          <div className="head" style={{ marginBottom: 8 }}><h3>Deep limits</h3><span className="pill warn">{limits.length} named</span></div>
+          <ul className="steps">
+            {limits.map((t) => <li key={t}><div>{t}</div></li>)}
+          </ul>
+          <p className="hint" style={{ marginTop: 10 }}>Parsed from level-3-deep/README.md at build time.</p>
         </div>
         <div>
-          <div className="head" style={{ marginBottom: 8 }}><h3>v1.1 backlog</h3><span className="pill info">from ROADMAP.md</span></div>
+          <div className="head" style={{ marginBottom: 8 }}><h3>v1.1 backlog</h3><span className="pill info">from REPORT.md</span></div>
           <ol className="steps">
             {items.map((it) => (
               <li key={it.n}><span className="n">{it.n}</span><div><b>{it.title}</b>{RIGOR_STATUS[it.n] && <> <span className="pill good">{RIGOR_STATUS[it.n]}</span></>}{it.body && <div className="hint">{it.body[0].toUpperCase() + it.body.slice(1)}</div>}</div></li>
@@ -669,8 +672,8 @@ function Reproduce() {
     ['level-2-build/README.md', 'Build', 'SFT pipeline and GRPO track'],
     ['level-3-deep/README.md', 'Deep', 'DPO, retention, probe, memory'],
     ['rigor/README.md', 'Rigor', 'Seeds, baselines, sweeps, ablations'],
-    ['docs/research-review.md', 'Research review', 'Graded against a research rubric'],
-    ['ROADMAP.md', 'Roadmap', 'v1.1 backlog'],
+    ['REPORT.md', 'Report', 'Hypotheses, misses, open work'],
+    ['PROPOSAL.md', 'Proposal', 'Scope and the draft confirmatory re-run'],
   ];
   return (
     <section id="reproduce" className="card window reveal" data-title="Terminal — reproduce">

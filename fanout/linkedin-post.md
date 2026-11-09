@@ -23,8 +23,7 @@ Learn: LoRA from scratch (rank 2, 40 trainable parameters
 against 64 for full fine-tuning) on a synthetic task, 512 train
 and 128 test. Test accuracy 0.5469 (70 of 128) to 0.9219 (118
 of 128), loss 1.0707 to 0.2534, base weights unchanged, plus
-hand-checked GRPO advantages for 3 groups of 4. 14 tests. Grade
-8,200 of 10,000.
+hand-checked GRPO advantages for 3 groups of 4. 14 tests.
 
 Build: an SFT-style pipeline with data prep, minibatch training,
 a hash-verified checkpoint, and an eval harness, plus a GRPO
@@ -34,7 +33,6 @@ track that trains a tabular policy. SFT held-out accuracy
 reward 0.2070 to 0.9766, greedy accuracy 0.125 (1 of 8) to
 1.0000 (8 of 8), final KL to the reference 1.1795 at beta 0.04,
 named as drift, not hidden. 28 tests in total at that level.
-Grade 8,300 of 10,000.
 
 Deep (compressed): a DPO run on the Build tabular policy (beta
 0.1, frozen reference, 300 steps). Held-out margin -0.0654 to
@@ -50,8 +48,8 @@ accuracy to 1.0000 while held-out stays 0.4375, the hacking
 pattern in miniature; the trained DPO policy is not flagged.
 QLoRA accounting (not measured GPU memory): the 7B row is
 3,516,777,216 bytes against 14,000,000,000 full fp16 bytes,
-fraction 0.2512. 39 tests in total. Grade 8,000 of 10,000, with
-deductions named in the repo.
+fraction 0.2512. 39 tests in total, with
+limits named in the repo.
 
 The honest limits, in the post and not in a footnote: toy
 NumPy policy, not a real LLM; synthetic checker-rule

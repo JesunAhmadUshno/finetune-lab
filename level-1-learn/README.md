@@ -136,21 +136,14 @@ Hand checks:
   118; the exact fractions are 70 / 128 = 0.546875 and
   118 / 128 = 0.921875.
 
-## Grade
+## Limits named at review
 
-8,200 of 10,000. Deductions, total 1,800:
-- Synthetic task and NumPy teaching model, not a real LLM: minus 650.
-- RLHF pipeline is a written and small code treatment, no real SFT,
-  reward model, or RL policy run: minus 450.
-- Run on Muse VM CPU, not the assigned BlackBox GPU node, even
-  though BlackBox was verified on this cycle, because this Learn
-  design is CPU teaching work: minus 250.
-- The true change from the base is rank 2 by construction, so the
-  adapter result is easier than a real task of unknown rank: minus 200.
-- One linear layer only, no bias, no separate optimizer, full batch
-  training only: minus 125.
-- GRPO code computes advantages only, with no policy loss, clipping,
-  or KL term: minus 125.
+- Synthetic task and NumPy teaching model, not a real LLM.
+- RLHF pipeline is a written and small code treatment, no real SFT, reward model, or RL policy run.
+- Run on Muse VM CPU, not the assigned BlackBox GPU node, even though BlackBox was verified on this cycle, because this Learn design is CPU teaching work.
+- The true change from the base is rank 2 by construction, so the adapter result is easier than a real task of unknown rank.
+- One linear layer only, no bias, no separate optimizer, full batch training only.
+- GRPO code computes advantages only, with no policy loss, clipping, or KL term.
 
 ## Failure modes and limits
 
@@ -179,7 +172,7 @@ Hand checks:
 A LoRA fine-tune of a small open model on a custom instruction set
 with before and after eval numbers, and one small GRPO run on an
 open model with a verifiable task, scored before and after. See
-SPEC.md and the root README level map.
+PROPOSAL.md (original scope) and the root README level map.
 
 ## References
 

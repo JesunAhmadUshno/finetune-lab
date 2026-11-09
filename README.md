@@ -1,82 +1,75 @@
 # finetune-lab
 
-Fine-tuning and post-training: LoRA, QLoRA, DPO, and a GRPO track, scored before and after.
+**Question.** Do the LoRA, GRPO and DPO update rules behave as their
+derivations predict, against baselines and across seeds, on synthetic
+tasks small enough to check by hand?
 
-Live dashboard: https://jesunahmadushno.github.io/finetune-lab/ (recorded results plus in-browser LoRA, GRPO and DPO trainers and a QLoRA memory calculator; source in site/).
+**Headline.** On a synthetic NumPy classification task, a rank 2 LoRA
+adapter (40 trainable weights) reaches mean held-out test accuracy
+0.9039 (bootstrap 95% CI 0.8742 to 0.9305, 10 seeds), below full
+fine-tuning of all 64 weights at 0.9391 (CI 0.9219 to 0.9555). No real
+language model was trained.
 
-Status: Learn DONE 2026-11-05. Build DONE 2026-11-05. Deep DONE 2026-11-05, v1.0 shipped. On synthetic NumPy tasks only, the Build SFT pipeline (512 train, 128 validation, 128 held-out test, 4 classes, input dim 16) trained a rank 2 LoRA adapter (40 trainable parameters against 64 for full fine-tuning) with minibatch training and raised held-out test accuracy from 0.6797 (87 of 128) before training to 0.9141 (117 of 128) after 60 epochs, with test loss from 1.0007 to 0.2032, the frozen base weights unchanged, and a checkpoint round-trip reproducing the after numbers exactly; and the Build GRPO track trained a tabular toy policy on 8 checker prompts (group size 8, clip eps 0.2, KL beta 0.04, 60 iterations) and raised fresh-sample mean reward from 0.2070 to 0.9766, with greedy accuracy from 0.125 (1 of 8) to 1.0000 (8 of 8), all on Muse VM CPU with no real LLM, no real text data, and no open model run.
+**Field.** ML and AI research. **Job family.** ML research and
+post-training engineering.
 
-Deep main claim: on a synthetic NumPy tabular policy only (8 prompts, 4 actions, reused from Build), a DPO run (beta 0.1, frozen reference, 300 full-batch steps) raised the held-out preference margin from -0.0654 to 0.8297 and held-out preference accuracy from 0.4375 (7 of 16) to 1.0000 (16 of 16), with train margin from -0.1123 to 1.6779, greedy checker accuracy from 0.125 (1 of 8) to 1.0000 (8 of 8) and no forgetting on that aligned task (change +0.875 greedy, +0.336 mean reward), and a QLoRA accounting study (not measured GPU memory) putting a 7B-scale model's 4-bit base plus rank 16 adapter at 3,516,777,216 bytes against 14,000,000,000 bytes for fp16 full weights; all on Muse VM CPU with no real LLM.
-Project: P10. Fleet node: BlackBox (GPU). Wave: Wave 5.
+**Verdict.** Functional; not pre-registered. Tests pass in CI on Python
+3.11 and 3.12, every results file is regenerated from its runner by one
+command, and all four trainers have run end to end on CPU with their
+outputs committed. No hypothesis was written before a run, so the repo
+is capped at Functional until the confirmatory re-run drafted in
+PROPOSAL.md is locked and run on a real open model.
 
-## Start here
+Live dashboard: https://jesunahmadushno.github.io/finetune-lab/
 
-1. Read SPEC.md for scope and acceptance criteria.
-2. Read DOSSIER.md for the past, present, and future of this problem (v1).
-3. Read NOVELTY.md for the proposed novelty (DRAFT, pending the Jev claim_check gate).
-4. Start at level-1-learn/README.md, then level-2-build, then level-3-deep.
-5. Read rigor/README.md for the multi-seed intervals, baselines, sweeps and ablations, and docs/research-review.md for the research grade and open gaps.
+## Reproduce
 
-## Level map
+```text
+pip install -r requirements.txt
+python3 -m unittest discover -s tests -v
+python3 scripts/check_results.py
+```
 
-- Level 1, Learn: the core idea, built small and clean, with a teaching path. DONE 2026-11-05.
-- Level 2, Build: a real working system other people can run. DONE 2026-11-05.
-- Level 3, Deep: benchmarks, optimization, evaluation, hard cases. DONE 2026-11-05 (compressed Deep: DPO run, forgetting checks, QLoRA memory accounting study, reward hacking probe; the rest of the v2 Deep scope is the v1.1 backlog in ROADMAP.md).
+check_results.py reruns all four runners (level-1-learn, level-2-build,
+level-3-deep, rigor; a few seconds on one CPU core) and fails if any
+recorded number changes. It ignores only the environment string and the
+two Build adapter checkpoint hashes, which change with platform and
+NumPy build (REPORT.md, section 6). To rewrite the files instead, run
+each runner directly, for example `python3 rigor/run_rigor.py`.
 
-## Benchmarks
+## Lifecycle
 
-| Test | Result |
+- Question: DONE 2026-11-04
+- Proposal: OPEN (not pre-registered; confirmatory re-run drafted, not locked)
+- Baseline: DONE 2026-11-05
+- Build: DONE 2026-11-05
+- Evaluate: DONE 2026-11-07 (toy scale only, post hoc)
+- Report: DONE 2026-11-08
+- Review: OPEN
+- Release: OPEN
+
+## Layout
+
+| Path | What it holds |
 | --- | --- |
-| Learn: LoRA test accuracy, synthetic task (512 train, 128 test, 4 classes), before training | 0.5469 (70 of 128), test loss 1.0707 |
-| Learn: LoRA test accuracy, same task, after 200 full batch epochs, rank 2 adapter, 40 trainable parameters of 64 full | 0.9219 (118 of 128), test loss 0.2534 |
-| Learn: GRPO advantages, 3 stated reward groups of 4 | Computed and hand checked; see level-1-learn/README.md |
-| Build: SFT held-out test accuracy, synthetic task (512 train, 128 validation, 128 test, 4 classes), before training | 0.6797 (87 of 128), test loss 1.0007 |
-| Build: SFT held-out test accuracy, same held-out slice, after 60 minibatch epochs (batch 64), rank 2 adapter, 40 trainable parameters of 64 full | 0.9141 (117 of 128), test loss 0.2032 |
-| Build: GRPO fresh-sample mean reward, 8 checker prompts x 32 samples, before training | 0.2070, greedy accuracy 0.125 (1 of 8) |
-| Build: GRPO fresh-sample mean reward, same eval, after 60 iterations (group 8, clip 0.2, KL beta 0.04) | 0.9766, greedy accuracy 1.0000 (8 of 8) |
-| Deep: DPO held-out preference margin and accuracy, 16 held-out pairs, before training | -0.0654, accuracy 0.4375 (7 of 16) |
-| Deep: DPO held-out preference margin and accuracy, same pairs, after 300 full-batch steps (beta 0.1) | 0.8297, accuracy 1.0000 (16 of 16) |
-| Deep: forgetting check, greedy checker accuracy on the Build GRPO task, before and after DPO | 0.125 (1 of 8) before, 1.0000 (8 of 8) after, change +0.875 |
-| Deep: QLoRA accounting, large-7B stated size, 4-bit base plus rank 16 adapter against fp16 full weights | 3,516,777,216 bytes against 14,000,000,000 bytes (fraction 0.2512, accounting, not measured GPU memory) |
+| PROPOSAL.md | Original scope (from SPEC.md), prior work (from NOVELTY.md), the draft confirmatory re-run; not locked |
+| REPORT.md | Background, method, results, post hoc hypotheses scored, misses, threats, open work |
+| level-1-learn/ | Baseline code: LoRA from scratch, GRPO advantages; README is the method note; results_learn.json is its evidence |
+| level-2-build/ | Build code: SFT LoRA pipeline and GRPO track; results_build.json |
+| level-3-deep/ | Evaluation code: DPO, retention check, reward hacking probe, QLoRA accounting; results_deep.json |
+| rigor/ | 10-seed intervals, baselines, sweeps, ablations; results_rigor.json |
+| scripts/check_results.py | Reruns every runner and checks the committed results are unchanged |
+| tests/ | Unit tests and the layout test, run in CI |
+| docs/decisions/ | Records of hard-to-reverse choices |
+| site/ | The live dashboard, built from the results files and these docs |
+| fanout/, PUBLICITY.md | Dated outreach drafts (2026-11-05) and the channel log |
+| CHANGELOG.md, CITATION.cff, SECURITY.md, LICENSE | Project records |
 
-| Rigor: SFT LoRA rank 2 held-out test accuracy, 10 seeds, final epoch | mean 0.9039, std 0.0486, bootstrap 95% CI 0.8742 to 0.9305 (seed 0 is the recorded 0.9141) |
-| Rigor: SFT full fine-tune of all 64 weights, same 10 seeds | mean 0.9391, CI 0.9219 to 0.9555 (beats the 40-parameter rank 2 adapter on this toy) |
-| Rigor: SFT best-validation epoch (early stopping), rank 2, 10 seeds | mean test accuracy 0.9219, CI 0.8969 to 0.9414 |
-| Rigor: GRPO fresh-sample mean reward after 60 iterations, 10 seeds | mean 0.9465, std 0.0215, CI 0.9340 to 0.9590 (the recorded 0.9766 is the best seed) |
-| Rigor: DPO held-out preference margin, 10 seeds | mean 0.8832, std 0.0395, CI 0.8603 to 0.9065 |
-| Rigor: misaligned DPO, chosen action contradicts the checker on 4 of 8 prompts, 10 seeds | greedy accuracy 0.5000 after (0.0000 on the misaligned prompts, 1.0000 on the rest) |
-| Rigor: shared-weight DPO (linear policy over prompt features), greedy accuracy on 8 unseen prompts, 10 seeds | 0.2750 before, 0.5375 after; with 4 of 8 train prompts misaligned, 0.2500 after |
-
-Rigor rows come from rigor/results_rigor.json (python3 rigor/run_rigor.py); the KL beta sweep, GRPO ablations and the 36-setting DPO sweep are in rigor/README.md.
-
-Note on slices: the Build validation slice is the slice Learn used as its test set, and the Build test slice is fresh held-out data. Build and Learn test numbers are not the same set; see level-2-build/README.md.
-
-## Novelty
-
-PROPOSED. See NOVELTY.md. The novelty text is a draft until the Jev claim_check gate passes on it.
-
-## Fan-out
-
-Written fan-out set for v1.0, dated 2026-11-05, in fanout/:
-
-- fanout/blog-post.md: "Teaching The Model Manners", the full
-  story with the main results claim gated by Jev claim_check
-  (model jev-1.13.0, noul 0.86, route CLEAR, no block).
-- fanout/tutorial.md: course module P10-finetune-lab. Every
-  command in it was executed and passed on 2026-11-05 (all three
-  runners, all per-level tests, full suite at 39 tests).
-- fanout/website-page.md: project page copy only, not published.
-- fanout/linkedin-post.md: DRAFT NOT POSTED, link as the
-  first-comment line per the LinkedIn rule.
-- fanout/paper-candidate.md: rejected-only suppression hacking
-  pattern note at CANDIDATE. Submission is Jesun's tap, nothing
-  submitted.
-- fanout/release-notes.md: draft notes for the live releases
-  v0.1, v0.5, and v1.0.
-
-Publicity grades and the channel log are in PUBLICITY.md. Overall
-fan-out grade: 9,520 of 10,000. The loop never posts to social:
-all social channels are held with named reasons in PUBLICITY.md.
+Code stays in the stage folders (level-1-learn, level-2-build,
+level-3-deep, rigor) because the tests, the runners and the dashboard
+import from those paths (decision 0002). Each results JSON sits next to
+the runner that writes it; there is no separate experiments/ or
+results/ folder because the evidence is generated, not captured.
 
 ## License
 

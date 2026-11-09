@@ -99,7 +99,7 @@ in the repo.
 
 ## Venue class note
 
-Per SPEC.md, the paper angle for P10 is the GRPO against PPO
+Per PROPOSAL.md (original scope), the paper angle for P10 is the GRPO against PPO
 small-model study. This brief names a sharper angle found in the
 shipped Deep work, the rejected-only suppression pattern, and
 keeps the GRPO material as supporting results. Venue class is a
