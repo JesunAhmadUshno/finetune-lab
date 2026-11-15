@@ -130,7 +130,7 @@ function Lines({ series, xMax, yMin = 0, yMax, label, xLabel, yFmt = f2, yTicks,
 export default function App() {
   useReveal();
   return (
-    <div className="wrap">
+    <div className="wrap"><a className="skip" href="#top">Skip to content</a>
       <MenuBar />
       <div className="glow" aria-hidden="true" />
       <Hero />
@@ -145,7 +145,7 @@ export default function App() {
       <Dock />
       <footer>
         Code: Apache-2.0. Every recorded number on this page is imported from the repo's results JSON files at build time; the live panels run in your browser and are checked against those files by <code>npm run build</code>.
-      </footer>
+      <nav className="support" aria-label="Support this work"><a href="https://github.com/sponsors/JesunAhmadUshno">Sponsor this work</a><a href="https://github.com/sponsors/JesunAhmadUshno">Donate</a><a href="https://buymeacoffee.com/jesun">Buy Me a Coffee</a><a href="https://calendly.com/jesunahmadushno/30min">Work with me</a></nav></footer>
     </div>
   );
 }
@@ -190,7 +190,7 @@ function Lora() {
   const task = useMemo(() => makeLoraTask(seed), [seed]);
   const res = useMemo(() => trainLora(task, { rank, lr, epochs, alpha: L.lora.alpha }), [task, rank, lr, epochs, L.lora.alpha]);
   return (
-    <section id="lora" className="card window reveal" data-title="lora_learn.py — live trainer">
+    <section id="lora" className="card window reveal" data-title="lora_learn.py - live trainer">
       <div className="head">
         <div>
           <p className="eyebrow">LoRA playground</p>
@@ -259,7 +259,7 @@ function Sft() {
   const base = rigor.sft_baselines.rows;
   const seeds = rigor.seeds.sft.summary;
   return (
-    <section id="sft" className="card window reveal" data-title="pipeline.py — eval harness">
+    <section id="sft" className="card window reveal" data-title="pipeline.py - eval harness">
       <div className="head">
         <div>
           <p className="eyebrow">SFT pipeline</p>
@@ -359,7 +359,7 @@ function Grpo() {
   const sweep = rigor.grpo_beta_budget.rows;
   const colors = ['var(--bad)', 'var(--warn)', 'var(--primary)', 'var(--good)'];
   return (
-    <section id="grpo" className="card window reveal" data-title="grpo_build.py — group relative policy optimization">
+    <section id="grpo" className="card window reveal" data-title="grpo_build.py - group relative policy optimization">
       <p className="eyebrow">GRPO trainer</p>
       <h2>No critic. The group <em>is</em> the baseline.</h2>
       <p className="sub">
@@ -431,7 +431,7 @@ function Dpo() {
   const mis = rigor.misaligned_retention.rows;
   const yMax = Math.max(2, ...run.history.map((h) => h.train_mean_margin));
   return (
-    <section id="dpo" className="card window reveal" data-title="dpo_deep.py — preference optimization">
+    <section id="dpo" className="card window reveal" data-title="dpo_deep.py - preference optimization">
       <div className="head">
         <div>
           <p className="eyebrow">DPO and task retention</p>
@@ -496,7 +496,7 @@ function Dpo() {
           <div style={{ overflowX: 'auto' }}>
             <table>
               <thead><tr><th>Prompts preferring a wrong action</th><th>Greedy after</th><th>On those prompts</th><th>On the rest</th></tr></thead>
-              <tbody>{mis.map((r) => <tr key={r.k_misaligned}><td>{r.k_misaligned} of {CORRECT.length}</td><td>{f4(r.greedy_accuracy.mean)}</td><td>{r.greedy_on_misaligned_prompts ? f4(r.greedy_on_misaligned_prompts.mean) : '—'}</td><td>{f4(r.greedy_on_aligned_prompts.mean)}</td></tr>)}</tbody>
+              <tbody>{mis.map((r) => <tr key={r.k_misaligned}><td>{r.k_misaligned} of {CORRECT.length}</td><td>{f4(r.greedy_accuracy.mean)}</td><td>{r.greedy_on_misaligned_prompts ? f4(r.greedy_on_misaligned_prompts.mean) : '-'}</td><td>{f4(r.greedy_on_aligned_prompts.mean)}</td></tr>)}</tbody>
             </table>
           </div>
           <p className="hint">The stronger test: where preferences contradict the checker, DPO follows the preferences and the task is lost on exactly those prompts. Damage cannot spread here because rows are independent.</p>
@@ -524,7 +524,7 @@ function Probe() {
     ['Trained DPO policy', probe.trained_policy_check],
   ];
   return (
-    <section id="probe" className="card window reveal" data-title="probe.log — reward hacking">
+    <section id="probe" className="card window reveal" data-title="probe.log - reward hacking">
       <div className="head">
         <div>
           <p className="eyebrow">Reward-hacking probe</p>
@@ -536,7 +536,7 @@ function Probe() {
       <div style={{ overflowX: 'auto' }}>
         <table>
           <thead><tr><th>Probe</th><th>Train pref. acc</th><th>Held-out pref. acc</th><th>Greedy acc</th><th>Mean reward</th></tr></thead>
-          <tbody>{rows.map(([k, r]) => <tr key={k}><td>{k}</td><td>{f4(r.train_preference_accuracy)}</td><td>{f4(r.held_out_preference_accuracy)}</td><td>{f4(r.greedy_accuracy)}</td><td>{r.mean_reward != null ? f4(r.mean_reward) : '—'}</td></tr>)}</tbody>
+          <tbody>{rows.map(([k, r]) => <tr key={k}><td>{k}</td><td>{f4(r.train_preference_accuracy)}</td><td>{f4(r.held_out_preference_accuracy)}</td><td>{f4(r.greedy_accuracy)}</td><td>{r.mean_reward != null ? f4(r.mean_reward) : '-'}</td></tr>)}</tbody>
         </table>
       </div>
       <p className="hint">Trained policy flagged as hacking or overfitting: <b>{String(probe.trained_policy_check.hacking_or_overfit_flagged)}</b> (rule: {probe.trained_policy_check.description}; pre-DPO greedy {f4(probe.trained_policy_check.greedy_accuracy_before)}).</p>
@@ -568,7 +568,7 @@ function Memory() {
   const keys = ['full_finetune_bytes', 'lora_adapter_bytes', 'lora_total_bytes', 'qlora_base_4bit_bytes', 'qlora_total_bytes', 'qlora_total_fraction_of_full'];
   const recomputed = mem.rows.map((r) => ({ r, got: memoryRow({ parameters: r.parameters, layers: r.layers, hidden: r.hidden, rank: r.rank }) }));
   return (
-    <section id="qlora" className="card window reveal" data-title="memory_study.py — QLoRA accounting">
+    <section id="qlora" className="card window reveal" data-title="memory_study.py - QLoRA accounting">
       <div className="head">
         <div>
           <p className="eyebrow">QLoRA memory calculator</p>
@@ -632,7 +632,7 @@ function Limits() {
   const items = useMemo(() => parseRoadmap(report), []);
   const verdict = useMemo(() => parseVerdict(readme), []);
   return (
-    <section id="limits" className="card window reveal" data-title="REPORT.md — honest limits">
+    <section id="limits" className="card window reveal" data-title="REPORT.md - honest limits">
       <p className="eyebrow">Honest limits and roadmap</p>
       <h2>What this lab does <em>not</em> show yet.</h2>
       <p className="sub">There is no real language model anywhere in this repo: no text, no tokenizer, no open-model run, and no measured GPU memory. The full report, with every hypothesis and miss, is in <a href={blob('REPORT.md')}>REPORT.md</a>.</p>
@@ -676,7 +676,7 @@ function Reproduce() {
     ['PROPOSAL.md', 'Proposal', 'Scope and the draft confirmatory re-run'],
   ];
   return (
-    <section id="reproduce" className="card window reveal" data-title="Terminal — reproduce">
+    <section id="reproduce" className="card window reveal" data-title="Terminal - reproduce">
       <p className="eyebrow">Reproduce it</p>
       <h2>Four scripts, fixed seeds, the same JSON every time.</h2>
       <ol className="steps" style={{ marginTop: 16 }}>
