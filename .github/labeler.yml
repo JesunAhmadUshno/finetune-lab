@@ -1,0 +1,27 @@
+learn:
+  - changed-files:
+      - any-glob-to-any-file: ["level-1-learn/**"]
+build:
+  - changed-files:
+      - any-glob-to-any-file: ["level-2-build/**"]
+deep:
+  - changed-files:
+      - any-glob-to-any-file: ["level-3-deep/**"]
+fanout:
+  - changed-files:
+      - any-glob-to-any-file: ["fanout/**"]
+rigor:
+  - changed-files:
+      - any-glob-to-any-file: ["rigor/**", "scripts/**"]
+tests:
+  - changed-files:
+      - any-glob-to-any-file: ["tests/**"]
+docs:
+  - changed-files:
+      - any-glob-to-any-file: ["docs/**", "README.md", "REPORT.md", "CHANGELOG.md", "PROPOSAL.md"]
+site:
+  - changed-files:
+      - any-glob-to-any-file: ["site/**"]
+automation:
+  - changed-files:
+      - any-glob-to-any-file: [".github/**"]
