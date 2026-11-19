@@ -1,0 +1,35 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+train examples 9992 (dropped 8), val 1000
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<00:36,  9.14it/s]Loading weights:  54%|█████▍    | 183/338 [00:00<00:00, 975.89it/s]Loading weights:  86%|████████▌ | 291/338 [00:00<00:00, 1002.52it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 948.92it/s] 
+trainable params: 18,464,768 || all params: 1,562,179,072 || trainable%: 1.1820
+epoch 0 step 25/471 loss 1.1890
+epoch 0 step 50/471 loss 1.1800
+epoch 0 step 75/471 loss 1.2425
+epoch 0 step 100/471 loss 1.3440
+epoch 0 step 125/471 loss 1.3361
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+train examples 9992 (dropped 8), val 1000
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<00:37,  9.07it/s]Loading weights:  51%|█████     | 171/338 [00:00<00:00, 930.80it/s]Loading weights:  83%|████████▎ | 279/338 [00:00<00:00, 987.89it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 926.82it/s]
+trainable params: 18,464,768 || all params: 1,562,179,072 || trainable%: 1.1820
+epoch 0 step 25/471 loss 1.1890
+epoch 0 step 50/471 loss 1.1800
+epoch 0 step 75/471 loss 1.2425
+epoch 0 step 100/471 loss 1.3440
+epoch 0 step 125/471 loss 1.3361
+epoch 0 step 150/471 loss 1.5659
+epoch 0 val loss 1.3327
+epoch 1 step 175/471 loss 0.9674
+epoch 1 step 200/471 loss 0.9842
+epoch 1 step 225/471 loss 0.8059
+epoch 1 step 250/471 loss 1.1884
+epoch 1 step 275/471 loss 1.1149
+epoch 1 step 300/471 loss 0.8384
+epoch 1 val loss 1.4162
+epoch 2 step 325/471 loss 0.7261
+epoch 2 step 350/471 loss 0.4709
+epoch 2 step 375/471 loss 0.7217
+epoch 2 step 400/471 loss 0.6339
+epoch 2 step 425/471 loss 0.4108
+epoch 2 step 450/471 loss 0.4876
+epoch 2 val loss 1.6724
+done /home/galleaai-nvidiadgxspark2/Jesun_Gallea_Dev/finetune-lab/confirmatory/runs/h1/lora/seed0

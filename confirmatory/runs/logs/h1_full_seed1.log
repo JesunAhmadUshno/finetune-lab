@@ -1,0 +1,7 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+train examples 9992 (dropped 8), val 1000
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  47%|████▋     | 159/338 [00:00<00:00, 1579.61it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 1961.30it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+train examples 9992 (dropped 8), val 1000
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<00:37,  9.00it/s]Loading weights:  51%|█████     | 171/338 [00:00<00:00, 940.93it/s]Loading weights:  83%|████████▎ | 279/338 [00:00<00:00, 970.00it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 918.91it/s]
+epoch 0 step 25/471 loss 1.3149

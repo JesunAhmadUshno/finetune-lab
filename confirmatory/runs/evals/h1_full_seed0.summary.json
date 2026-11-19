@@ -1,0 +1,9 @@
+{
+  "tag": "h1_full_seed0",
+  "model": "/home/galleaai-nvidiadgxspark2/Jesun_Gallea_Dev/finetune-lab/confirmatory/runs/h1/full/seed0/ckpt",
+  "n": 1319,
+  "correct": 157,
+  "accuracy": 0.11902956785443518,
+  "gpu_hours": 0.04769661287466685,
+  "smoke": false
+}

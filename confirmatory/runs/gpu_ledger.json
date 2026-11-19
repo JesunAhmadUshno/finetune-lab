@@ -1,0 +1,30 @@
+{
+  "units": {
+    "eval/base": {
+      "hours": 0.1793313251601325,
+      "rc": 0,
+      "done_file_present": true
+    },
+    "h1/full/seed0": {
+      "hours": 0.7548365355862512,
+      "rc": 0,
+      "done_file_present": true
+    },
+    "eval/h1_full_seed0": {
+      "hours": 0.04984431743621826,
+      "rc": 0,
+      "done_file_present": true
+    },
+    "h1/lora/seed0": {
+      "hours": 1.1066931658320958,
+      "rc": 0,
+      "done_file_present": true
+    },
+    "eval/h1_lora_seed0": {
+      "hours": 0.04438907735877567,
+      "rc": 0,
+      "done_file_present": true
+    }
+  },
+  "total_hours": 2.1350944213734735
+}

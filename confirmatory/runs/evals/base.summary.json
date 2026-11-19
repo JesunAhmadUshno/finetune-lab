@@ -1,0 +1,9 @@
+{
+  "tag": "base",
+  "model": "Qwen/Qwen2.5-1.5B",
+  "n": 1319,
+  "correct": 670,
+  "accuracy": 0.5079605761940864,
+  "gpu_hours": 0.17816452787982093,
+  "smoke": false
+}

@@ -1,0 +1,9 @@
+{
+  "tag": "h1_lora_seed0",
+  "model": "/home/galleaai-nvidiadgxspark2/Jesun_Gallea_Dev/finetune-lab/confirmatory/runs/h1/lora/seed0/ckpt_adapter",
+  "n": 1319,
+  "correct": 110,
+  "accuracy": 0.08339651250947688,
+  "gpu_hours": 0.042644646101527746,
+  "smoke": false
+}

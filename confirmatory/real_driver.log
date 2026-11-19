@@ -1,0 +1,17 @@
+SKIP prep
+RUN eval/base (ledger 0.00 h)
+OK eval/base 0.179 h rc=0
+RUN h1/full/seed0 (ledger 0.18 h)
+SKIP prep
+SKIP eval/base
+RUN h1/full/seed0 (ledger 0.18 h)
+OK h1/full/seed0 0.755 h rc=0
+RUN eval/h1_full_seed0 (ledger 0.93 h)
+OK eval/h1_full_seed0 0.050 h rc=0
+RUN h1/lora/seed0 (ledger 0.98 h)
+retry h1/lora/seed0 after rc=-9
+OK h1/lora/seed0 1.107 h rc=0
+RUN eval/h1_lora_seed0 (ledger 2.09 h)
+OK eval/h1_lora_seed0 0.044 h rc=0
+RUN h1/full/seed1 (ledger 2.14 h)
+retry h1/full/seed1 after rc=-9
